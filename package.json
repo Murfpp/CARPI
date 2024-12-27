@@ -1,0 +1,27 @@
+{
+  "name": "zacarias",
+  "version": "1.0.0",
+  "description": "Aplicativo de otimização do sistema",
+  "main": "src/main.js",
+  "author": "Seu Nome",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder"
+  },
+  "build": {
+    "appId": "com.example.app",
+    "productName": "ZacariasApp",
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "public/assets/icon.ico",
+      "defaultArch": "x64"
+    }
+  },
+  "devDependencies": {
+    "electron": "^33.2.1",
+    "electron-builder": "^25.1.8"
+  }
+}

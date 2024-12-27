@@ -1,0 +1,14 @@
+Preparei esse lembrete para tú Gu
+
+Instale o node.js no browser!!
+
+npm i ou npm install - Sempre que instalar o projeto ou um *git clone* use o *npm i* para 
+instalar os modulos necessários
+
+npm start -> Dar inicio a pre-visualização do software 
+(Configurado no package.json "start": "electron .")
+
+
+npm run build -> Para criar uma dist, nessa dist vai ter o instalador do software.
+(Configurado no package.json "build": "electron-builder") 
+Ele está rodando um Modulo responsavel por gerar o software
