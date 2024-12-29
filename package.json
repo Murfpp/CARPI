@@ -1,27 +1,38 @@
 {
-  "name": "zacarias",
+  "name": "meu-app",
   "version": "1.0.0",
-  "description": "Aplicativo de otimização do sistema",
   "main": "src/main.js",
-  "author": "Seu Nome",
   "scripts": {
     "start": "electron .",
-    "build": "electron-builder"
+    "build": "electron-builder",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "build": {
     "appId": "com.example.app",
-    "productName": "ZacariasApp",
+    "productName": "CARPI",
     "directories": {
       "output": "dist"
     },
+    "files": [
+      "**/*",
+      "clean.bat"
+    ],
     "win": {
       "target": "nsis",
       "icon": "public/assets/icon.ico",
-      "defaultArch": "x64"
+      "defaultArch": "x64",
+      "requestedExecutionLevel": "requireAdministrator"
     }
   },
+  "keywords": [],
+  "author": "Carpi",
+  "license": "ISC",
+  "description": "",
   "devDependencies": {
     "electron": "^33.2.1",
     "electron-builder": "^25.1.8"
+  },
+  "dependencies": {
+    "rimraf": "^6.0.1"
   }
 }

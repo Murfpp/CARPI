@@ -1,0 +1,72 @@
+/* css/style.css */
+
+/* Reseta as margens e o padding para um estilo padrão */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Estilos gerais do corpo da página */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+    color: #333;
+}
+
+/* Estilo do botão */
+button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 15px 32px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+/* Efeito de hover para o botão */
+button:hover {
+    background-color: #45a049;
+}
+
+/* Estilo para o texto de status */
+p#status {
+    margin-top: 20px;
+    font-size: 18px;
+    color: #666;
+}
+
+/* Quando o status estiver sendo processado */
+p#status.processing {
+    color: #ffa500;
+}
+
+/* Quando o status for de sucesso */
+p#status.success {
+    color: #28a745;
+}
+
+/* Quando o status for de erro */
+p#status.error {
+    color: #dc3545;
+}
+
+/* Media query para telas menores */
+@media (max-width: 600px) {
+    body {
+        font-size: 14px;
+    }
+
+    button {
+        padding: 12px 24px;
+        font-size: 14px;
+    }
+}

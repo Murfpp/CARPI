@@ -1,0 +1,14 @@
+// Recebe o evento de click no botão e executa o script .bat
+// ipcMain.on('clean-temp', () => {
+//     exec(path.join(__dirname, 'clean.bat'), (err, stdout, stderr) => {
+//         if (err) {
+//             console.error('Erro ao executar o script:', err);
+//             return;
+//         }
+//         console.log('Output:', stdout);
+//         console.log('Erro:', stderr);
+//     });
+// });
+
+
+Jeito de fazer com .bat, algumas coisas serão muito dificil de fazer sem bat, então utilizaremos bat
