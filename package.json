@@ -1,38 +1,40 @@
 {
-  "name": "meu-app",
+  "name": "CarpiTools",
   "version": "1.0.0",
-  "main": "src/main.js",
+  "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "build": "electron-builder",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "electron-builder"
   },
-  "build": {
-    "appId": "com.example.app",
-    "productName": "CARPI",
-    "directories": {
-      "output": "dist"
-    },
-    "files": [
-      "**/*",
-      "clean.bat"
-    ],
-    "win": {
-      "target": "nsis",
-      "icon": "public/assets/icon.ico",
-      "defaultArch": "x64",
-      "requestedExecutionLevel": "requireAdministrator"
-    }
-  },
-  "keywords": [],
-  "author": "Carpi",
-  "license": "ISC",
-  "description": "",
   "devDependencies": {
     "electron": "^33.2.1",
     "electron-builder": "^25.1.8"
   },
   "dependencies": {
-    "rimraf": "^6.0.1"
+    "python-shell": "^5.0.0"
+  },
+  "build": {
+    "appId": "com.example.carpitools",
+    "files": [
+      "dist/**/*",
+      "_engine/**/*",
+      "main.js",
+      "index.html",
+      "styles.css",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "_engine/",
+        "to": "_engine/",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ],
+    "win": {
+      "target": "nsis",
+      "requestedExecutionLevel": "requireAdministrator"
+    }
   }
 }
