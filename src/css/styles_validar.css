@@ -1,0 +1,211 @@
+/* Reset some default styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #52049b, #3211aa, #520286);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
+  overflow: hidden; /* Desabilita o scroll */
+}
+
+/* .img-peixonauta removido para simplificação */
+
+/* Container com menos padding e mais compacto */
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 100%;
+  width: 100%;
+  height: 100%;
+  padding: 15px; /* Menos padding */
+  background-color: rgba(0, 0, 0, 0.6); 
+}
+
+/* Título menor e mais compacto */
+h1 {
+  font-size: 1.5rem; /* Fonte menor */
+  color: #ffffff;
+  margin-bottom: 15px; /* Menos margem */
+  text-align: center;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3); /* Sombra mais suave */
+}
+
+form {
+  width: 100%;
+  max-width: 400px; /* Largura menor */
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* Menos espaçamento */
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+  transition: opacity 0.5s ease-in-out, visibility 0s linear 0.5s;
+}
+
+form.visible {
+  opacity: 1;
+  visibility: visible;
+  position: relative;
+  transition: opacity 2s ease-in-out, visibility 0s linear 0s;
+}
+
+label {
+  color: #f7f7f7;
+  font-size: 1rem; /* Fonte menor */
+  font-weight: 600;
+}
+
+input {
+  padding: 12px; /* Menos padding */
+  padding-right: 25px; /* Espaço extra à direita para o ícone de olho */
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #f7f7f7;
+  font-size: 1rem; /* Fonte menor */
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+input:focus {
+  border-color: #0044ff;
+  outline: none;
+}
+
+/* Estilo para o ícone de olho */
+.input-wrapper {
+  position: relative;
+}
+
+.eye-icon {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 16px; /* Ícone menor */
+  color: #f7f7f7; /* Cor do ícone */
+}
+
+/* Ajuste do tipo do input password */
+input[type="password"] {
+  padding-right: 30px; /* Ajuste do padding para acomodar o ícone */
+}
+
+button {
+  padding: 12px; /* Menos padding */
+  background-color: #7b2cbf;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem; /* Fonte menor */
+  cursor: pointer;
+  margin-top: 25px; /* Menos margem */
+  transition: background-color 0.3s;
+  font-weight: bold;
+  position: relative;
+  overflow: hidden;
+}
+
+button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+button:hover {
+  background-color: #5a1d96;
+}
+
+button:hover::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: -webkit-linear-gradient(left, #00cfd5 50%, transparent 50%),
+    -webkit-linear-gradient(left, #00cfd5 50%, transparent 50%),
+    -webkit-linear-gradient(top, #00cfd5 50%, transparent 50%),
+    -webkit-linear-gradient(top, #00cfd5 50%, transparent 50%);
+  background-size: 12px 2px, 12px 2px, 2px 12px, 2px 12px;
+  background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
+  background-position: 0 0, left bottom, 0 0, right 0;
+  animation: anima-borda 10s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes anima-borda {
+  0% {
+    background-position: 0 0, left bottom, 0 0, right 0;
+  }
+  100% {
+    background-position: 1000px 0, -1000px bottom, 0 -1000px, right 1000px;
+  }
+}
+
+/* Classe escondida */
+.hidden {
+  display: none;
+}
+
+/* Link "Conta" - Estilo refinado */
+.link-conta {
+  display: inline-block;
+  font-size: 14px; /* Fonte menor */
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 600;
+  margin-top: 10px; /* Menos margem */
+  position: relative;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.link-conta::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  width: 100%;
+  height: 2px;
+  background-color: #7b2cbf;
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+  transform-origin: bottom right;
+}
+
+.link-conta:hover {
+  color: #ff61a6; /* Mudando a cor ao passar o mouse */
+  transform: translateY(-2px);
+}
+
+.link-conta:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+.link-conta:focus {
+  outline: none;
+  color: #ff61a6;
+  text-decoration: underline;
+}
+
+.mouse-light {
+  width: 130px;
+  height: 130px;
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}

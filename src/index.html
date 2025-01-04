@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carpi Tools</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Reset básico */
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #52049b, #3211aa, #520286);
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        img {
+            filter: grayscale(100%);
+        }
+
+        /* Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* Partículas no fundo */
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+            opacity: 0.6;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.8);
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            animation: floatParticle 5s infinite ease-in-out, fadeOutParticles 3s forwards;
+        }
+
+        @keyframes floatParticle {
+            0% {
+                transform: translateY(0) scale(0.8);
+                opacity: 1;
+            }
+
+            50% {
+                transform: translateY(-200px) scale(1);
+                opacity: 0.5;
+            }
+
+            100% {
+                transform: translateY(-400px) scale(0.8);
+                opacity: 0;
+            }
+        }
+
+        @keyframes fadeOutParticles {
+            0% {
+                opacity: 0.6;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+
+        /* Container central */
+        .container {
+            text-align: center;
+            z-index: 1;
+        }
+
+        /* Estilo da imagem */
+        .fade-element {
+            opacity: 0;
+            animation: fadeInOut 4s ease-in-out forwards 1s, scaleUp 4s ease-in-out forwards 1s;
+            max-width: 250px;
+            margin-bottom: 10px;
+        }
+
+        /* Animações */
+        @keyframes fadeInOut {
+            0% {
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+
+        @keyframes scaleUp {
+            0% {
+                transform: scale(0.9);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes slideUp {
+            0% {
+                transform: translateY(20px);
+            }
+
+            50% {
+                transform: translateY(0);
+            }
+
+            100% {
+                transform: translateY(-10px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="overlay">
+        <!-- Partículas -->
+        <div class="particles"></div>
+
+        <!-- Conteúdo Central -->
+        <div class="container">
+            <img src="imgs/logo.png" alt="Imagem Central" class="fade-element">
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const particlesContainer = document.querySelector('.particles');
+            const fadeElements = document.querySelectorAll('.fade-element');
+
+            // Criar partículas
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                particle.style.left = `${Math.random() * 100}vw`;
+                particle.style.top = `${Math.random() * 100}vh`;
+                particle.style.animationDelay = `${Math.random() * 2}s`;
+                particle.style.animationDuration = `${3 + Math.random() * 3}s`;
+                particlesContainer.appendChild(particle);
+            }
+
+            // Remover partículas antes do desaparecimento da logo
+            setTimeout(() => {
+                particlesContainer.style.transition = 'opacity 1.5s ease-out';
+                particlesContainer.style.opacity = '0';
+            }, 2000); // 2s antes da logo começar a desaparecer
+
+            // Redirecionar após animação completa
+            fadeElements.forEach(element => {
+                element.addEventListener('animationend', () => {
+                    window.location.href = 'pages/inicial.html';
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,37 +1,24 @@
 {
   "name": "CarpiTools",
   "version": "1.0.0",
-  "main": "main.js",
+  "description": "Carpi Tools",
+  "main": "src/main.js",
   "scripts": {
     "start": "electron .",
     "build": "electron-builder"
   },
   "devDependencies": {
-    "electron": "^33.2.1",
-    "electron-builder": "^25.1.8"
+    "electron": "^24.0.0",
+    "electron-builder": "^25.1.8",
+    "systeminformation": "^5.6.2",
+    "node-schedule": "^2.1.0"
   },
   "dependencies": {
-    "python-shell": "^5.0.0"
+    "systeminformation": "^5.6.2",
+    "node-schedule": "^2.1.0"
   },
   "build": {
     "appId": "com.example.carpitools",
-    "files": [
-      "dist/**/*",
-      "_engine/**/*",
-      "main.js",
-      "index.html",
-      "styles.css",
-      "package.json"
-    ],
-    "extraResources": [
-      {
-        "from": "_engine/",
-        "to": "_engine/",
-        "filter": [
-          "**/*"
-        ]
-      }
-    ],
     "win": {
       "target": "nsis",
       "requestedExecutionLevel": "requireAdministrator"
