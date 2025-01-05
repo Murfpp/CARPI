@@ -1,0 +1,300 @@
+/* Reset de margens e padding */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Configuração geral do corpo */
+body {
+    font-family: 'Poppins', sans-serif; /* Fontes modernas */
+    background: linear-gradient(135deg, #121212, #1a1a1a); /* Fundo escuro */
+    color: #fff; /* Texto claro */
+    display: flex;
+    height: 100vh;
+    flex-direction: column;
+    overflow: hidden;
+    line-height: 1.5;
+    scroll-behavior: smooth;
+}
+
+/* Animação de Opacidade */
+.container {
+    opacity: 0;
+    animation: opacity 1s ease-in forwards;
+}
+
+/* Barra lateral */
+.sidebar {
+    background: linear-gradient(135deg, #000, #2a2a2a);
+    color: #fff;
+    width: 80px;
+    height: 100%;
+    padding-top: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
+    transition: width 0.4s ease, box-shadow 0.3s ease-in-out; /* Suaviza a transição de largura e sombra */
+    z-index: 1000;
+}
+
+/* Barra lateral ao passar o mouse */
+.sidebar:hover {
+    width: 180px;
+    box-shadow: 5px 0 15px rgba(0, 0, 0, 0.8); /* Aumenta a sombra quando hover */
+}
+
+/* Item da barra lateral */
+.sidebar-item {
+    display: flex;
+    margin-bottom: 15px;
+    margin-left: 10px;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    position: relative;
+    transition: background-color 0.3s ease, transform 0.3s ease-out; /* Aumenta a suavidade ao passar o mouse */
+}
+
+/* Ícones */
+.sidebar-item i {
+    font-size: 18px;
+    margin-right: 10px;
+    color: #ccc;
+    transition: transform 0.3s ease, color 0.3s ease-out; /* Suaviza a transformação do ícone */
+}
+
+/* Efeito de hover nos ícones */
+.sidebar-item i:hover {
+    transform: scale(1.1);
+    color: #3469b2; /* Efeito de hover neon */
+}
+
+/* Texto que aparece no hover */
+.sidebar-text {
+    visibility: hidden; /* Inicialmente invisível */
+    opacity: 0;
+    left: 100%;
+    width: 70%;
+    margin-left: 10px;
+    transition: opacity 0.6s ease-in-out, transform 0.4s ease-in-out, visibility 0.4s ease-in-out; /* Transições suaves */
+    font-size: 14px;
+    color: #fff;
+    pointer-events: none;
+}
+
+.sidebar-item:hover .sidebar-text {
+    visibility: visible; /* Torna visível ao passar o mouse */
+    opacity: 1;
+}
+
+/* Animação de opacidade */
+@keyframes opacity {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 60px;
+    }
+
+    .sidebar-item i {
+        font-size: 20px;
+    }
+
+    .sidebar-text {
+        font-size: 12px;
+    }
+}
+
+/* Conteúdo principal */
+.main-content {
+    margin-left: 80px;
+    padding: 20px;
+    width: calc(100% - 80px);
+    overflow-y: auto;
+    animation: slideIn 0.3s ease-out;
+}
+
+/* Animação de slide */
+@keyframes slideIn {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+/* Painel */
+/* Define a base para os painéis */
+.panel {
+    opacity: 0; /* Painel invisível inicialmente */
+    transition: opacity 0.5s ease-in-out; /* Efeito de transição suave */
+    display: none; /* Evita que painéis fiquem visíveis antes de serem ativados */
+}
+
+/* Quando o painel estiver ativo, ele se torna visível */
+.panel.active {
+    opacity: 1;
+    display: block;
+}
+
+
+/* Containers de ações */
+.action-containers {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.action-container {
+    background: linear-gradient(135deg, #2c2c2c, #3c3c3c);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.action-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 140, 255, 0.7);
+}
+
+.action-container i {
+    font-size: 35px;
+    color: #3469b2;
+    margin-bottom: 10px;
+    text-shadow: 0 0 6px #1b648e;
+}
+
+.action-container h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #fff;
+}
+
+.action-container p {
+    font-size: 14px;
+    color: #aaa;
+}
+
+/* Estilo do banner */
+.dashboard-banner {
+    background: linear-gradient(135deg, #1a1a1a, #121212);
+    padding: 20px;
+    color: white;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
+    margin-bottom: 25px;
+}
+
+.dashboard-banner h2 {
+    font-size: 2rem;
+    color: #4caf50;
+    text-shadow: 0 0 10px #4caf50;
+}
+
+.dashboard-banner p {
+    font-size: 1.1rem;
+    color: #ccc;
+}
+
+/* Cartões de status */
+.system-status {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.status-card {
+    background: linear-gradient(135deg, #2c2c2c, #3a3a3a);
+    border-radius: 10px;
+    padding: 20px;
+    width: calc(33.33% - 10px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.status-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 255, 0, 0.6);
+}
+
+.status-card h3 {
+    font-size: 1.3rem;
+    color: #fff;
+    text-shadow: 0 0 8px #4caf50;
+}
+
+/* Barra de progresso */
+.progress-bar {
+    height: 10px;
+    background: #555;
+    border-radius: 5px;
+    margin-top: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.progress-bar::after {
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 70%;
+    background: linear-gradient(90deg, #4caf50, #007bff);
+    border-radius: 5px;
+    animation: progressAnimation 1.5s ease;
+}
+
+@keyframes progressAnimation {
+    from { width: 0; }
+    to { width: 70%; }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 60px;
+    }
+
+    .main-content {
+        margin-left: 60px;
+        width: calc(100% - 60px);
+    }
+
+    .dashboard-banner h2 {
+        font-size: 1.5rem;
+    }
+
+    .status-card {
+        width: calc(50% - 10px);
+    }
+
+    .action-container {
+        padding: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .sidebar {
+        display: none;
+    }
+
+    .main-content {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .status-card {
+        width: 100%;
+    }
+
+    .dashboard-banner h2 {
+        font-size: 1.2rem;
+    }
+}

@@ -24,7 +24,8 @@ function createWindow() {
     });
 
     win.loadFile('src/index.html');
-
+    // win.webContents.openDevTools();
+    
     // Bloquear Ctrl+Shift+I
     win.webContents.on('before-input-event', (event, input) => {
         if (input.control && input.shift && input.key === 'I') {
