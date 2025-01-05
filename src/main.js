@@ -1,5 +1,5 @@
 const { app, BrowserWindow, ipcMain, Menu } = require('electron');
-const { exec, spawn } = require('child_process');
+const { exec } = require('child_process');
 const si = require('systeminformation');
 const path = require('path');
 
@@ -25,7 +25,7 @@ function createWindow() {
 
     win.loadFile('src/index.html');
     // win.webContents.openDevTools();
-    
+
     // Bloquear Ctrl+Shift+I
     win.webContents.on('before-input-event', (event, input) => {
         if (input.control && input.shift && input.key === 'I') {
@@ -84,34 +84,29 @@ app.on('window-all-closed', () => {
     }
 });
 
-
-async function verificarVersaoWindows() {
-    const info = await osInfo();
-    console.log(info);
-}
-
 // Funções de otimização
 
 // Limpeza de arquivos temporários
 async function limparTemp() {
-    return new Promise((resolve, reject) => {
-        try {
-            const command = `${powerShellPath} -WindowStyle Hidden -Command "Remove-Item -Path $env:TEMP\\* -Recurse -Force; Remove-Item -Path C:\\Windows\\Temp\\* -Recurse -Force"`;
-            exec(command, (err, stdout, stderr) => {
-                if (err) {
-                    console.error(`Erro ao limpar arquivos temporários: ${stderr}`);
-                    reject(new Error('Erro ao limpar arquivos temporários'));
+    try {
+        const command = `${powerShellPath} -WindowStyle Hidden -Command "Remove-Item -Path $env:TEMP\\* -Recurse -Force; Remove-Item -Path C:\\Windows\\Temp\\* -Recurse -Force"`;
+        exec(command, (err, stdout, stderr) => {
+            if (err) {
+                // Verifica se o erro é relacionado a um arquivo ou diretório não encontrado, por exemplo
+                if (stderr.includes("Cannot find path")) {
+                    console.log("Alguns arquivos não foram encontrados, mas isso não é um erro crítico.");
                 } else {
-                    console.log('Arquivos temporários limpos com sucesso!');
-                    resolve('Arquivos temporários limpos com sucesso!');
+                    console.error(`Erro ao limpar arquivos temporários: ${stderr}`);
                 }
-            });
-        } catch (error) {
-            console.error(error);
-            reject(error);
-        }
-    });
+            } else {
+                console.log('Arquivos temporários limpos com sucesso!');
+            }
+        });
+    } catch (error) {
+        console.error('Erro inesperado ao limpar arquivos temporários:', error);
+    }
 }
+
 
 async function desfragmentarOtimizarDisco() {
 }
@@ -133,10 +128,10 @@ async function desinstalarCopilot() {
 async function mudarTemaWindows(tema) {
     try {
         // Definir o comando PowerShell baseado no tema desejado
-        const command = tema === 'escuro' 
-            ? `${powerShellPath} -WindowStyle Hidden -Command "Set-ItemProperty -Path 'HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize' -Name 'AppsUseLightTheme' -Value 0"` 
+        const command = tema === 'escuro'
+            ? `${powerShellPath} -WindowStyle Hidden -Command "Set-ItemProperty -Path 'HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize' -Name 'AppsUseLightTheme' -Value 0"`
             : `${powerShellPath} -WindowStyle Hidden -Command "Set-ItemProperty -Path 'HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize' -Name 'AppsUseLightTheme' -Value 1"`;
-        
+
         exec(command, (err, stdout, stderr) => {
             if (err) {
                 console.error(`Erro ao mudar o tema: ${stderr}`);
@@ -155,9 +150,7 @@ ipcMain.on('mudarTemaWindows', (event, tema) => {
 });
 
 // IPC para comunicação com o frontend
-ipcMain.handle('limparTemp', async () => {
-    return await limparTemp(); // Chama a função que agora retorna uma Promise
-});
+ipcMain.on('limparTemp', limparTemp);
 ipcMain.on('desfragmentarDisco', desfragmentarOtimizarDisco);
 ipcMain.on('verificarIntegridade', verificarIntegridade);
 ipcMain.on('limparCacheDNS', limparCacheDNS);

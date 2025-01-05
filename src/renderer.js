@@ -3,32 +3,24 @@ document.getElementById('limparTemp').addEventListener('click', async (event) =>
     actionContainer.style.pointerEvents = 'none'; // Desabilita a interação com a div
 
     try {
-        await window.electron.limparTemp(); // Espera a limpeza ser concluída
-        showAlert("Arquivos temporários limpos com sucesso!", "success", "✔️ ", 2000); // Alerta de sucesso
-        
+        // Envia a solicitação para o main process
+        const response = await window.electron.limparTemp(); // Certifique-se de que a resposta é recebida aqui
+        showAlert("Arquivos temporários limpos com sucesso", "success", "✔️ ", 2000); // Alerta de sucesso
+
         // Adiciona a notificação no localStorage
         const notifications = JSON.parse(localStorage.getItem('notificacoes')) || [];
         notifications.push({
-            message: "Arquivos temporários limpos com sucesso!",
+            message: response.message,
             status: "success"
         });
         localStorage.setItem('notificacoes', JSON.stringify(notifications));
     } catch (error) {
-        console.error('Erro ao limpar TEMP:', error);
-        showAlert("Erro ao limpar arquivos temporários", "error", "❌ ", 2000); // Alerta de erro
-        
-        // Adiciona a notificação de erro no localStorage
-        const notifications = JSON.parse(localStorage.getItem('notificacoes')) || [];
-        notifications.push({
-            message: "Erro ao limpar arquivos temporários",
-            status: "error",
-            timestamp: new Date().toISOString(),
-        });
-        localStorage.setItem('notificacoes', JSON.stringify(notifications));
+        console.error('Erro ao limpar os arquivos temporários:', error);
     } finally {
         actionContainer.style.pointerEvents = 'auto'; // Reabilita a interação com a div
     }
 });
+
 
 // document.getElementById('desfragmentarDisco').addEventListener('click', () => {
 //     window.electron.desfragmentarDisco();
