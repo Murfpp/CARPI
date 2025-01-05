@@ -5,7 +5,7 @@ function atualizarDesempenho() {
     // Verificar se o dashboard tem a classe 'active'
     const dashboard = document.getElementById('dashboard');
     if (!dashboard.classList.contains('active')) {
-        console.log('Monitoramento não iniciado, dashboard não está ativo.');
+        // console.log('Monitoramento não iniciado, dashboard não está ativo.');
         return; // Não executa a atualização se o dashboard não tiver a classe 'active'
     }
 
@@ -44,3 +44,38 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('Monitoramento iniciado.');
     }
 });
+
+const pegarNotificacoes = () => {
+    // Recupera as notificações do localStorage
+    const notifications = JSON.parse(localStorage.getItem('notificacoes')) || [];
+    
+    // Pega as 5 últimas notificações
+    const recentNotifications = notifications.slice(-5);
+
+    // Referência ao elemento da lista onde as notificações serão exibidas
+    const notificationList = document.getElementById('notification-list');
+    
+    // Limpa a lista de notificações
+    notificationList.innerHTML = '';
+
+    // Exibe as notificações recentes
+    recentNotifications.forEach(notification => {
+        const listItem = document.createElement('li');
+        listItem.style.margin = '5px 0';
+        listItem.style.color = notification.status === 'success' ? '#2ecc71' : '#e74c3c'; // Sucesso ou erro
+        listItem.innerText = `${notification.status === 'success' ? '✅' : '❌'} ${notification.message}`;
+        notificationList.appendChild(listItem);
+    });
+};
+
+// Função para limpar as notificações
+const limparNotificacoes = () => {
+    // Limpa o conteúdo do localStorage
+    localStorage.removeItem('notificacoes');
+
+    // Limpa a lista de notificações exibidas
+    document.getElementById('notification-list').innerHTML = '';
+};
+
+// Adiciona o evento de clique no botão de limpar
+document.getElementById('clear-notifications').addEventListener('click', limparNotificacoes);

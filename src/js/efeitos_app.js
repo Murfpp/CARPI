@@ -57,3 +57,9 @@ function navigateTo(panelId) {
 function action(actionType) {
     alert(`Ação: ${actionType}`);
 }
+
+
+document.getElementById('logout-btn').addEventListener('click', () => {
+    localStorage.clear('contaValida');
+    window.location.href = '../index.html';
+});

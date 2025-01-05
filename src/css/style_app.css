@@ -16,6 +16,7 @@ body {
     overflow: hidden;
     line-height: 1.5;
     scroll-behavior: smooth;
+    user-select: none; /* Evita a seleção de texto */
 }
 
 /* Animação de Opacidade */
@@ -28,7 +29,7 @@ body {
 .sidebar {
     background: linear-gradient(135deg, #000, #2a2a2a);
     color: #fff;
-    width: 80px;
+    width: 60px;
     height: 100%;
     padding-top: 20px;
     position: fixed;
@@ -54,6 +55,8 @@ body {
     font-size: 16px;
     cursor: pointer;
     position: relative;
+    /* text-align: center; */
+    user-select: none;
     transition: background-color 0.3s ease, transform 0.3s ease-out; /* Aumenta a suavidade ao passar o mouse */
 }
 
@@ -88,6 +91,44 @@ body {
     visibility: visible; /* Torna visível ao passar o mouse */
     opacity: 1;
 }
+
+/* Botão de Logout */
+.sidebar-item.logout {
+    position: absolute;
+    bottom: 20px; /* Fixa o botão na parte inferior */
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    margin-left: 10px;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Ícone do botão Logout */
+.sidebar-item.logout i {
+    font-size: 18px;
+    color: #f13131df; 
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.sidebar-item.logout:hover i {
+    transform: scale(1.1); /* Efeito de leve aumento */
+    color: #ff0000; /* Cor mais vibrante ao passar o mouse */
+}
+
+.sidebar-item.logout .sidebar-text {
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out;
+}
+
+.sidebar-item.logout:hover .sidebar-text {
+    visibility: visible;
+    opacity: 1;
+}
+
 
 /* Animação de opacidade */
 @keyframes opacity {

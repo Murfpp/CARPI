@@ -1,7 +1,7 @@
 {
-  "name": "CarpiTools",
+  "name": "Toptimizer",
   "version": "1.0.0",
-  "description": "Carpi Tools",
+  "description": "Toptimizer",
   "main": "src/main.js",
   "scripts": {
     "start": "electron .",
@@ -18,7 +18,7 @@
     "node-schedule": "^2.1.0"
   },
   "build": {
-    "appId": "com.example.carpitools",
+    "appId": "com.example.toptimizer",
     "win": {
       "target": "nsis",
       "requestedExecutionLevel": "requireAdministrator"

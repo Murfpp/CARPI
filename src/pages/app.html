@@ -4,8 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carpi Tools | Painel de Controle</title>
+    <title>Toptimizer | Painel de Controle</title>
     <link rel="stylesheet" href="../css/style_app.css">
+    <link rel="stylesheet" href="../css/alert.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 </head>
 
@@ -13,7 +14,7 @@
     <div class="container">
         <!-- Barra Lateral -->
         <div class="sidebar">
-            <div class="sidebar-item active" onclick="navigateTo('dashboard')">
+            <div class="sidebar-item active" onclick="navigateTo('dashboard'); pegarNotificacoes();">
                 <i class="fas fa-tachometer-alt"></i> <!-- Dashboard -->
                 <span class="sidebar-text">Dashboard</span>
             </div>
@@ -37,6 +38,13 @@
             <div class="sidebar-item" onclick="navigateTo('internet')">
                 <i class="fas fa-wifi"></i> <!-- Conexão com a Internet -->
                 <span class="sidebar-text">Conexão</span>
+            </div>
+
+
+            <!-- Botão saida -->
+            <div class="sidebar-item logout" id="logout-btn">
+                <i class="fas fa-sign-out-alt"></i> <!-- Ícone de Logout -->
+                <span class="sidebar-text">Sair</span>
             </div>
         </div>
 
@@ -106,16 +114,15 @@
 
                 <!-- Últimas Notificações -->
                 <div class="dashboard-notifications"
-                    style="margin-top: 20px; padding: 15px; background: #1a1a1a; border-radius: 5px;">
-                    <h2 style="font-size: 1.5rem; margin-bottom: 10px;">Notificações Recentes</h2>
-                    <ul style="list-style: none; padding: 0;">
-                        <li style="margin: 5px 0; color: #aaa;">✅ Atualização do driver de GPU concluída com sucesso!
-                        </li>
-                        <li style="margin: 5px 0; color: #aaa;">⚡ O sistema foi otimizado para jogos intensos.</li>
-                        <li style="margin: 5px 0; color: #aaa;">⚠ Seu armazenamento está quase cheio. Considere limpar
-                            arquivos antigos.</li>
-                    </ul>
+                style="margin-top: 20px; padding: 15px; background: #1a1a1a; border-radius: 5px;">
+                <h2 style="font-size: 1.5rem; margin-bottom: 10px;">Notificações Recentes
+                    <i class="fas fa-trash"  id="clear-notifications" style="background: none; border: none; color: #fff; font-size: 1rem; cursor: pointer; padding: 0; margin-left: 50%;"></i>
+                </h2>
+                <ul id="notification-list" style="list-style: none; padding: 0;">
+                    <!-- As notificações serão inseridas aqui dinamicamente -->
+                </ul>
                 </div>
+            
             </div>
 
             <!-- Interface e Ferramentas -->
@@ -208,7 +215,7 @@
                         <h3>Otimização de Registros</h3>
                         <p>Ajustar serviços e registros para melhor desempenho.</p>
                     </div>
-                    <div class="action-container" onclick="action('clean')">
+                    <div class="action-container" id="limparTemp">
                         <i class="fas fa-broom"></i>
                         <h3>Limpeza de Arquivos</h3>
                         <p>Limpar arquivos temporários e disco.</p>
@@ -248,8 +255,16 @@
         </div>
     </div>
 
+    <div id="alert-container"></div>
+    <script src="../js/alert.js"></script>
     <script src="../js/monitoramento.js"></script>
     <script src="../js/efeitos_app.js"></script>
+    <script src="../renderer.js"></script>
+
+    <script>
+        pegarNotificacoes(); // Carregar notificações
+        showAlert("Bem-vindo ao Painel de Controle do Toptimizer!", "info", '😉', 2000); // Alerta de Boas-Vindas
+    </script>
 </body>
 
 </html>

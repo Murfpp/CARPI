@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carpi Tools</title>
+    <title>Toptimizer</title>
     <link rel="stylesheet" href="styles.css">
     <style>
         /* Reset básico */
@@ -16,14 +16,15 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(135deg, #52049b, #3211aa, #520286);
+            background: linear-gradient(135deg, #121212, #1a1a1a);
             font-family: Arial, sans-serif;
             overflow: hidden;
             user-select: none;
         }
 
         img {
-            filter: grayscale(100%);
+            /* filter: grayscale(100%); */
+            user-select: none;
         }
 
         /* Overlay */
@@ -181,7 +182,12 @@
             // Redirecionar após animação completa
             fadeElements.forEach(element => {
                 element.addEventListener('animationend', () => {
-                    window.location.href = 'pages/inicial.html';
+                    let validoOuNao = localStorage.getItem('contaValida');
+                    if(validoOuNao == 'true') {
+                        window.location.href = 'pages/app.html';
+                    } else {
+                        window.location.href = 'pages/inicial.html';
+                    }
                 });
             });
         });

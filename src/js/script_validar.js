@@ -43,18 +43,29 @@ document.addEventListener('DOMContentLoaded', () => {
 const submitCreatePassword = document.getElementById('submit-criar-senha');
 
 // Fazer login
-btnLogin.addEventListener('click', (event) => {
-  // event.preventDefault();
+btnLogin.addEventListener('click', () => {
+  event.preventDefault();
 
-  // const email = document.getElementById('email-login').value;
-  // const password = document.getElementById('password-login').value;
+  const email = document.getElementById('email-login').value;
+  const password = document.getElementById('senha-login').value;
 
-  // const sanitizedEmail = validateInput(email);
-  // const sanitizedPassword = validateInput(password);
+  const sanitizedEmail = validateInput(email);
+  const sanitizedPassword = validateInput(password);
 
-  // if (sanitizedEmail !== email || sanitizedPassword !== password) {
-  //   return alert('Input contém caracteres inválidos ou maliciosos.');
-  // }
+  if (sanitizedEmail !== email || sanitizedPassword !== password) {
+    return showAlert("Input contém caracteres inválidos ou maliciosos.", "error", "❌", 1600);
+  }
+  
+  if(email === '' || password === ''){
+    return showAlert("Preencha todos os campos!", "error", "❌", 1000);
+  }
+
+  if(email === 'admin@gmail.com' && password === 'Senha123@'){
+    localStorage.setItem('contaValida', 'true');
+    return window.location.href = 'app.html';
+  } else {
+    return showAlert("Email ou senha incorretos!", "error", "❌", 1000);
+  }
 
   // const dados = {
   //   email: email,
@@ -77,8 +88,6 @@ btnLogin.addEventListener('click', (event) => {
   //   alert('Login efetuado com sucesso!');
   // })
   // .catch(error => console.error('Error: ', error))
-
-  window.location.href = 'app.html';
 })
 
 // Ação ao submeter o formulário de criação de senha

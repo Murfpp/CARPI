@@ -1,5 +1,5 @@
 const { app, BrowserWindow, ipcMain, Menu } = require('electron');
-const { exec } = require('child_process');
+const { exec, spawn } = require('child_process');
 const si = require('systeminformation');
 const path = require('path');
 
@@ -94,92 +94,39 @@ async function verificarVersaoWindows() {
 
 // Limpeza de arquivos temporários
 async function limparTemp() {
-    try {
-        const command = `${powerShellPath} -WindowStyle Hidden -Command "Remove-Item -Path $env:TEMP\\* -Recurse -Force; Remove-Item -Path C:\\Windows\\Temp\\* -Recurse -Force"`;
-        exec(command, (err, stdout, stderr) => {
-            if (err) {
-                console.error(`Erro ao limpar arquivos temporários: ${stderr}`);
-            } else {
-                console.log('Arquivos temporários limpos com sucesso!');
-            }
-        });
-    } catch (error) {
-        console.error(error);
-    }
-}
-
-async function desfragmentarOtimizarDisco() {
-    const script = 'Defrag /C /H /U /V';
-
-    // Usar o caminho completo para o cmd.exe
-    const cmdPath = path.join(process.env.WINDIR, 'System32', 'cmd.exe');
-
-    exec(`"${cmdPath}" /C "${script}"`, (error, stdout, stderr) => {
-        if (error) {
-            console.error(`Erro ao executar script: ${error.message}`);
-            return;
-        }
-        if (stderr) {
-            console.error(`Erro no CMD: ${stderr}`);
-            return;
-        }
-        console.log(`Resultado do CMD: ${stdout}`);
-
-        // Verificar se a desfragmentação foi bem-sucedida
-        if (stdout.includes("Desfragmentação concluída com sucesso") || stdout.includes("Otimização concluída")) {
-            console.log("✅ Desfragmentação concluída com sucesso!");
-        } else {
-            console.log("❌ A desfragmentação não foi concluída corretamente.");
+    return new Promise((resolve, reject) => {
+        try {
+            const command = `${powerShellPath} -WindowStyle Hidden -Command "Remove-Item -Path $env:TEMP\\* -Recurse -Force; Remove-Item -Path C:\\Windows\\Temp\\* -Recurse -Force"`;
+            exec(command, (err, stdout, stderr) => {
+                if (err) {
+                    console.error(`Erro ao limpar arquivos temporários: ${stderr}`);
+                    reject(new Error('Erro ao limpar arquivos temporários'));
+                } else {
+                    console.log('Arquivos temporários limpos com sucesso!');
+                    resolve('Arquivos temporários limpos com sucesso!');
+                }
+            });
+        } catch (error) {
+            console.error(error);
+            reject(error);
         }
     });
 }
 
+async function desfragmentarOtimizarDisco() {
+}
+
 // Verificar e corrigir arquivos corrompidos do sistema
 async function verificarIntegridade() {
-    try {
-        const command = `${powerShellPath} -Command "Start-Process powershell -ArgumentList 'sfc /scannow' -Verb runAs"`;
-        exec(command, (err, stdout, stderr) => {
-            if (err) {
-                console.error(`Erro ao verificar integridade: ${stderr}`);
-            } else {
-                console.log('Verificação de integridade concluída!');
-            }
-        });
-    } catch (error) {
-        console.error(error);
-    }
 }
 
 // Limpar cache de DNS
 async function limparCacheDNS() {
-    try {
-        const command = `${powerShellPath} -WindowStyle Hidden -Command "Clear-DnsClientCache"`;
-        exec(command, (err, stdout, stderr) => {
-            if (err) {
-                console.error(`Erro ao limpar cache de DNS: ${stderr}`);
-            } else {
-                console.log('Cache de DNS limpo com sucesso!');
-            }
-        });
-    } catch (error) {
-        console.error(error);
-    }
 }
 
 // Função para desinstalar o Copilot do Windows
 async function desinstalarCopilot() {
-    try {
-        const command = `${powerShellPath} -WindowStyle Hidden -Command "Start-Process powershell -ArgumentList 'Get-AppxPackage -AllUsers | Where-Object {$_.Name -Like ''*Microsoft.Copilot*''} | Remove-AppxPackage -AllUsers -ErrorAction Continue' -Verb runAs"`;
-        exec(command, (err, stdout, stderr) => {
-            if (err) {
-                console.error(`Erro ao desinstalar o Copilot: ${stderr}`);
-            } else {
-                console.log('Copilot desinstalado com sucesso!');
-            }
-        });
-    } catch (error) {
-        console.error('Erro ao tentar desinstalar o Copilot:', error);
-    }
+
 }
 
 // Função para mudar o tema do Windows (Claro ou Escuro)
@@ -208,7 +155,9 @@ ipcMain.on('mudarTemaWindows', (event, tema) => {
 });
 
 // IPC para comunicação com o frontend
-ipcMain.on('limparTemp', limparTemp);
+ipcMain.handle('limparTemp', async () => {
+    return await limparTemp(); // Chama a função que agora retorna uma Promise
+});
 ipcMain.on('desfragmentarDisco', desfragmentarOtimizarDisco);
 ipcMain.on('verificarIntegridade', verificarIntegridade);
 ipcMain.on('limparCacheDNS', limparCacheDNS);
