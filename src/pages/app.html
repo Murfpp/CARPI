@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toptimizer | Painel de Controle</title>
+    <link rel="stylesheet" href="../css/style_app.css">
+    <link rel="stylesheet" href="../css/alert.css">
+    <link rel="shortcut icon" href="../imgs/logoprincipal.png" type="image/x-icon">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/escolhertemas.css">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Barra Lateral -->
+        <div class="sidebar">
+            <div class="sidebar-item active" onclick="navigateTo('dashboard'); pegarNotificacoes();">
+                <i class="fas fa-tachometer-alt"></i> <!-- Dashboard -->
+                <span class="sidebar-text">Dashboard</span>
+            </div>
+            <!-- Novas Seções -->
+            <div class="sidebar-item" onclick="navigateTo('interface')">
+                <i class="fas fa-desktop"></i> <!-- Interface e Ferramentas -->
+                <span class="sidebar-text">Interface</span>
+            </div>
+            <div class="sidebar-item" onclick="navigateTo('hardware')">
+                <i class="fas fa-microchip"></i> <!-- Hardware e Software -->
+                <span class="sidebar-text">Hardware</span>
+            </div>
+            <div class="sidebar-item" onclick="navigateTo('performance')">
+                <i class="fas fa-cogs"></i> <!-- Desempenho do Sistema -->
+                <span class="sidebar-text">Desempenho</span>
+            </div>
+            <div class="sidebar-item" onclick="navigateTo('storage')">
+                <i class="fas fa-hdd"></i> <!-- Armazenamento e Registros -->
+                <span class="sidebar-text">Discos</span>
+            </div>
+            <div class="sidebar-item" onclick="navigateTo('internet')">
+                <i class="fas fa-wifi"></i> <!-- Conexão com a Internet -->
+                <span class="sidebar-text">Conexão</span>
+            </div>
+
+
+            <!-- Botão saida -->
+            <div class="sidebar-item logout" id="logout-btn">
+                <i class="fas fa-sign-out-alt"></i> <!-- Ícone de Logout -->
+                <span class="sidebar-text">Sair</span>
+            </div>
+        </div>
+
+        <div id="main-content" class="main-content">
+
+            <!-- Painel Dashboard -->
+            <div id="dashboard" class="panel active"
+                style="padding: 20px; color: white; background: #0d0d0d; border-radius: 10px; font-family: Arial, sans-serif;">
+
+                <!-- Menu de Acesso Rápido -->
+                <div class="dashboard-quick-access"
+                    style="display: flex; justify-content: space-between; margin-top: 20px;">
+                    <button
+                        style="flex: 1; margin: 10px; padding: 15px; background: #1e1e1e; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 1rem; text-align: center; transition: background 0.3s;"
+                        onclick="navigateTo('performance')">
+                        <i class="fas fa-tachometer-alt"></i> Otimização
+                    </button>
+                    <button
+                        style="flex: 1; margin: 10px; padding: 15px; background: #1e1e1e; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 1rem; text-align: center; transition: background 0.3s;"
+                        onclick="navigateTo('settings')">
+                        <i class="fas fa-cogs"></i> Configurações
+                    </button>
+                    <button
+                        style="flex: 1; margin: 10px; padding: 15px; background: #1e1e1e; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 1rem; text-align: center; transition: background 0.3s;"
+                        onclick="navigateTo('updates')">
+                        <i class="fas fa-sync-alt"></i> Atualizações
+                    </button>
+                    <!-- Monitoramento com radio input -->
+                    <button
+                        style="flex: 1; margin: 10px; padding: 15px; background: #1e1e1e; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 1rem; text-align: center; transition: background 0.3s;"
+                        onclick="navigateTo('updates')">
+                        <i class="fa-solid fa-clipboard"></i>  Logs
+                    </button>
+
+
+                </div>
+
+                <!-- Seção de Informações do Sistema -->
+                <div class="dashboard-info" style="display: flex; justify-content: space-between; margin-top: 20px;">
+                    <!-- CPU -->
+                    <div class="info-card"
+                        style="flex: 1; margin: 10px; padding: 15px; background: #1a1a1a; border-radius: 5px; text-align: center;">
+                        <h3 style="font-size: 1.2rem;">Uso de CPU</h3>
+                        <div
+                            style="width: 100%; height: 20px; background: #444; border-radius: 10px; margin: 10px auto; position: relative;">
+                            <div id="cpuBarra"
+                                style="width: 0%; height: 100%; background: #ff5733; border-radius: 10px; transition: width 1s ease;">
+                            </div>
+                        </div>
+                        <p id="cpuTexto" style="font-size: 0.9rem; margin-top: 5px;">Uso de CPU: 0% | Temperatura: --°C
+                        </p>
+                    </div>
+
+                    <!-- RAM -->
+                    <div class="info-card"
+                        style="flex: 1; margin: 10px; padding: 15px; background: #1a1a1a; border-radius: 5px; text-align: center;">
+                        <h3 style="font-size: 1.2rem;">Uso de RAM</h3>
+                        <div
+                            style="width: 100%; height: 20px; background: #444; border-radius: 10px; margin: 10px auto; position: relative;">
+                            <div id="ramBarra"
+                                style="width: 0%; height: 100%; background: #33aaff; border-radius: 10px; transition: width 1s ease;">
+                            </div>
+                        </div>
+                        <p id="ramTexto" style="font-size: 0.9rem; margin-top: 5px;">Uso de RAM: 0GB / 0GB (Livre: 0GB)
+                        </p>
+                    </div>
+                </div>
+
+
+                <!-- Últimas Notificações -->
+                <div class="dashboard-notifications"
+                    style="margin-top: 20px; padding: 15px; background: #1a1a1a; border-radius: 5px;">
+                    <div class="notifications-header"
+                        style="display: flex; justify-content: space-between; align-items: center;">
+                        <h2 style="font-size: 1.5rem; margin-bottom: 0;">Notificações Recentes</h2>
+                        <button class="class-clear-notifications" id="clear-notifications">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                    <ul id="notification-list" style="list-style: none; padding: 0;">
+                        <!-- As notificações serão inseridas aqui dinamicamente -->
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Interface e Ferramentas -->
+            <div id="interface" class="panel">
+                <h2>Interface e Ferramentas</h2>
+                <div class="action-containers">
+                    <div class="action-container" onclick="action('pdf')">
+                        <i class="fas fa-file-pdf"></i>
+                        <h3>Gerenciador de PDF</h3>
+                        <p>Configuração e acesso rápido ao Edge PDF.</p>
+                    </div>
+                    <div class="action-container" onclick="action('assistant')">
+                        <i class="fas fa-microphone"></i>
+                        <h3>Assistente Virtual</h3>
+                        <p>Configurar ou desativar a Cortana.</p>
+                    </div>
+                    <div class="action-container" style="text-align: center;">
+                        <i class="fas fa-adjust"></i>
+                        <h3 style="margin-top: 10px;">Alterar tema</h3>
+                        <input type="checkbox" id="theme-toggle" class="theme-toggle" style="display: none;" />
+                        <label for="theme-toggle" class="theme-toggle-label">
+                            <i class="fa-solid fa-moon theme-toggle-icon" style="font-size: 15px; color: white; margin-top: 9px; margin-right: 2px;"></i>
+                            <i class="fa-solid fa-sun theme-toggle-icon" style="font-size: 15px; color: white; margin-top: 9px; margin-left: 2px;"></i>
+                            <div class="theme-toggle-ball"></div>
+                        </label>
+                    </div>                                      
+                </div>
+            </div>
+
+            <!-- Hardware e Software -->
+            <div id="hardware" class="panel">
+                <h2>Hardware e Software</h2>
+                <div class="action-containers">
+                    <div class="action-container" onclick="action('menu')">
+                        <i class="fas fa-bars"></i>
+                        <h3>Gerenciar Menu Iniciar</h3>
+                        <p>Fixar ou desfixar ícones desnecessários.</p>
+                    </div>
+                    <div class="action-container" onclick="action('usb')">
+                        <i class="fas fa-usb"></i>
+                        <h3>Otimização USB</h3>
+                        <p>Melhorar desempenho de USB (geral e USB 3.0).</p>
+                    </div>
+                    <div class="action-container" onclick="action('bloatware')">
+                        <i class="fas fa-trash"></i>
+                        <h3>Remover Programas Não Necessários</h3>
+                        <p>Remover bloatware pré-instalado.</p>
+                    </div>
+                    <div class="action-container" onclick="action('overclock')">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <h3>Overclocking Seguro</h3>
+                        <p>Configuração e ajustes de desempenho.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Desempenho do Sistema -->
+            <div id="performance" class="panel">
+                <h2>Desempenho do Sistema</h2>
+                <div class="action-containers">
+                    <div class="action-container" onclick="action('battery')">
+                        <i class="fas fa-bolt"></i>
+                        <h3>Bateria para Jogos</h3>
+                        <p>Ajustar configurações para melhor desempenho em jogos.</p>
+                    </div>
+                    <div class="action-container" onclick="action('startup')">
+                        <i class="fas fa-play"></i>
+                        <h3>Programas de Inicialização</h3>
+                        <p>Desativar programas desnecessários ao iniciar o sistema.</p>
+                    </div>
+                    <div class="action-container" onclick="action('privacy')">
+                        <i class="fas fa-lock"></i>
+                        <h3>Privacidade</h3>
+                        <p>Desabilitar Telemetria e Tarefas desnecessárias.</p>
+                    </div>
+                    <div class="action-container" onclick="action('dependencies')">
+                        <i class="fas fa-code"></i>
+                        <h3>Dependências do Sistema</h3>
+                        <p>Garantir a instalação do .NET Framework.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Armazenamento e Registros -->
+            <div id="storage" class="panel">
+                <h2>Armazenamento e Registros</h2>
+                <div class="action-containers">
+                    <div class="action-container" onclick="action('onedrive')">
+                        <i class="fas fa-cloud"></i>
+                        <h3>OneDrive</h3>
+                        <p>Desinstalar caso não seja necessário.</p>
+                    </div>
+                    <div class="action-container" onclick="action('registry')">
+                        <i class="fas fa-cogs"></i>
+                        <h3>Otimização de Registros</h3>
+                        <p>Ajustar serviços e registros para melhor desempenho.</p>
+                    </div>
+                    <div class="action-container" id="limparTemp">
+                        <i class="fas fa-broom"></i>
+                        <h3>Limpeza de Arquivos</h3>
+                        <p>Limpar arquivos temporários e disco.</p>
+                    </div>
+                    <div class="action-container" onclick="action('disk')">
+                        <i class="fas fa-hdd"></i>
+                        <h3>Manutenção de Disco</h3>
+                        <p>Desfragmentação de discos.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Conexão com a Internet -->
+            <div id="internet" class="panel">
+                <h2>Conexão com a Internet</h2>
+                <div class="action-containers">
+                    <div class="action-container" id="configurarWifi">
+                        <i class="fas fa-wifi"></i>
+                        <h3>Otimizar Internet</h3>
+                        <p>Ajustar configurações de rede para maior velocidade e estabilidade.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Configurações -->
+            <div id="config" class="panel">
+                <h1>Configurações</h1>
+                <p>Configurações adicionais estarão aqui.</p>
+            </div>
+
+            <!-- Sobre -->
+            <div id="about" class="panel">
+                <h1>Sobre</h1>
+                <p>Informações sobre o Painel de Controle.</p>
+
+            </div>
+        </div>
+    </div>
+
+    <div id="alert-container"></div>
+    <script src="../js/alert.js"></script>
+    <script src="../js/monitoramento.js"></script>
+    <script src="../js/trocartema.js"></script>
+    <script src="../js/efeitos_app.js"></script>
+    <script src="../renderer.js"></script>
+
+    <script>
+        pegarNotificacoes(); // Carregar notificações
+        showAlert("Bem-vindo ao Painel de Controle do Toptimizer!", "info", '😉', 2000); // Alerta de Boas-Vindas
+
+        // Seleciona a sidebar
+        const sidebar = document.querySelector('.sidebar');
+        const sidebarTexts = document.querySelectorAll('.sidebar-text');
+
+        // Evento de mouseover
+        sidebar.addEventListener('mouseenter', () => {
+            sidebarTexts.forEach(text => {
+                text.style.opacity = '1';
+                text.style.visibility = 'visible';
+                // text.style.textAlign = 'center';
+            });
+        });
+
+        // Evento de mouseout
+        sidebar.addEventListener('mouseleave', () => {
+            sidebarTexts.forEach(text => {
+                text.style.opacity = '0';
+                text.style.visibility = 'hidden';
+            });
+        });
+
+    </script>
+</body>
+
+</html>
