@@ -45,6 +45,7 @@ document.getElementById('configurarWifi').addEventListener('click', async (event
             actionContainer.style.pointerEvents = 'auto';
         } else {
             showAlert(`${result.mensagem} (Código: ${result.codigo})`, "error", "❌ ", 2000);
+            actionContainer.style.pointerEvents = 'auto';
         }
 
         // Adiciona a notificação no localStorage

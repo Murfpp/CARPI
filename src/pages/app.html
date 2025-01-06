@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../css/alert.css">
     <link rel="shortcut icon" href="../imgs/logoprincipal.png" type="image/x-icon">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/escolhertemas.css">
 </head>
 
 <body>
@@ -73,11 +74,13 @@
                         onclick="navigateTo('updates')">
                         <i class="fas fa-sync-alt"></i> Atualizações
                     </button>
+                    <!-- Monitoramento com radio input -->
                     <button
                         style="flex: 1; margin: 10px; padding: 15px; background: #1e1e1e; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 1rem; text-align: center; transition: background 0.3s;"
-                        onclick="navigateTo('monitor')">
-                        <i class="fas fa-chart-line"></i> Monitoramento
+                        onclick="navigateTo('updates')">
+                        <i class="fa-solid fa-clipboard"></i>  Logs
                     </button>
+
 
                 </div>
 
@@ -114,8 +117,10 @@
 
 
                 <!-- Últimas Notificações -->
-                <div class="dashboard-notifications" style="margin-top: 20px; padding: 15px; background: #1a1a1a; border-radius: 5px;">
-                    <div class="notifications-header" style="display: flex; justify-content: space-between; align-items: center;">
+                <div class="dashboard-notifications"
+                    style="margin-top: 20px; padding: 15px; background: #1a1a1a; border-radius: 5px;">
+                    <div class="notifications-header"
+                        style="display: flex; justify-content: space-between; align-items: center;">
                         <h2 style="font-size: 1.5rem; margin-bottom: 0;">Notificações Recentes</h2>
                         <button class="class-clear-notifications" id="clear-notifications">
                             <i class="fas fa-trash"></i>
@@ -124,7 +129,7 @@
                     <ul id="notification-list" style="list-style: none; padding: 0;">
                         <!-- As notificações serão inseridas aqui dinamicamente -->
                     </ul>
-                </div>                
+                </div>
             </div>
 
             <!-- Interface e Ferramentas -->
@@ -141,11 +146,16 @@
                         <h3>Assistente Virtual</h3>
                         <p>Configurar ou desativar a Cortana.</p>
                     </div>
-                    <div class="action-container" onclick="action('theme')">
-                        <i class="fas fa-paint-brush"></i>
-                        <h3>Personalização</h3>
-                        <p>Ativar tema escuro.</p>
-                    </div>
+                    <div class="action-container" style="text-align: center;">
+                        <i class="fas fa-adjust"></i>
+                        <h3 style="margin-top: 10px;">Alterar tema</h3>
+                        <input type="checkbox" id="theme-toggle" class="theme-toggle" style="display: none;" />
+                        <label for="theme-toggle" class="theme-toggle-label">
+                            <i class="fa-solid fa-sun theme-toggle-icon" style="font-size: 15px; color: white; margin-top: 9px;"></i>
+                            <i class="fa-solid fa-moon theme-toggle-icon" style="font-size: 15px; color: white; margin-top: 9px;"></i>
+                            <div class="theme-toggle-ball"></div>
+                        </label>
+                    </div>                                      
                 </div>
             </div>
 
@@ -260,6 +270,7 @@
     <div id="alert-container"></div>
     <script src="../js/alert.js"></script>
     <script src="../js/monitoramento.js"></script>
+    <script src="../js/trocartema.js"></script>
     <script src="../js/efeitos_app.js"></script>
     <script src="../renderer.js"></script>
 

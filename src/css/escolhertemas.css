@@ -1,0 +1,57 @@
+.action-container {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Esconde o checkbox */
+.theme-toggle {
+    display: none;
+}
+
+/* Estilização do botão de alternância */
+.theme-toggle-label {
+    width: 60px;
+    height: 30px;
+    background: #444;
+    border-radius: 50px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin-top: 10px;
+}
+
+/* Ícones menores */
+.theme-toggle-icon {
+    font-size: 8px;
+    z-index: 1;
+    color: #fff;
+}
+
+/* Bola de alternância */
+.theme-toggle-ball {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 24px;
+    height: 24px;
+    background: white;
+    z-index: 2;
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+}
+
+/* Efeito ao ativar */
+.theme-toggle:checked + .theme-toggle-label {
+    background: #007bff;
+}
+
+.theme-toggle:checked + .theme-toggle-label .theme-toggle-ball {
+    transform: translateX(30px);
+}

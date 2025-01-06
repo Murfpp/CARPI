@@ -10,7 +10,7 @@ body {
     font-family: 'Poppins', sans-serif; /* Fontes modernas */
     background: linear-gradient(135deg, #121212, #1a1a1a); /* Fundo escuro */
     color: #fff; /* Texto claro */
-    display: flex;
+    display: flex; 
     height: 100vh;
     flex-direction: column;
     overflow: hidden;
@@ -252,24 +252,13 @@ body {
 
 /* Estilo do banner */
 .dashboard-banner {
-    background: linear-gradient(135deg, #1a1a1a, #121212);
+    /* background: linear-gradient(135deg, #1a1a1a, #121212); */
     padding: 20px;
     color: white;
     border-radius: 12px;
     text-align: center;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
     margin-bottom: 25px;
-}
-
-.dashboard-banner h2 {
-    font-size: 2rem;
-    color: #4caf50;
-    text-shadow: 0 0 10px #4caf50;
-}
-
-.dashboard-banner p {
-    font-size: 1.1rem;
-    color: #ccc;
 }
 
 /* Cartões de status */

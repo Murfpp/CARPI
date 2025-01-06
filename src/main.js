@@ -121,23 +121,6 @@ ipcMain.handle('limparTemp', async () => {
     }
 });
 
-async function desfragmentarOtimizarDisco() {
-}
-
-// Verificar e corrigir arquivos corrompidos do sistema
-async function verificarIntegridade() {
-}
-
-// Limpar cache de DNS
-async function limparCacheDNS() {
-}
-
-// Função para desinstalar o Copilot do Windows
-async function desinstalarCopilot() {
-
-}
-
-
 // Função otimizarInternetCompleto
 async function otimizarInternetCompleto(event) {
     return new Promise((resolve, reject) => {
@@ -169,7 +152,7 @@ async function otimizarInternetCompleto(event) {
         `;
 
         const tempFilePath = path.join(os.tmpdir(), `optimizeNetwork_${Date.now()}.bat`);
-
+        console.log("Aqui ó " + tempFilePath);
         try {
             fs.writeFileSync(tempFilePath, batScript);
         } catch (err) {
@@ -243,11 +226,6 @@ ipcMain.on('mudarTemaWindows', (event, tema) => {
     mudarTemaWindows(tema);
 });
 
-// IPC para comunicação com o frontend
-ipcMain.on('desfragmentarDisco', desfragmentarOtimizarDisco);
-ipcMain.on('verificarIntegridade', verificarIntegridade);
-ipcMain.on('limparCacheDNS', limparCacheDNS);
-
 // IPC para obter dados de CPU e RAM
 ipcMain.handle('obterUsoCPU', async () => {
     return await obterUsoCPU();
@@ -256,6 +234,3 @@ ipcMain.handle('obterUsoCPU', async () => {
 ipcMain.handle('obterUsoRAM', async () => {
     return await obterUsoRAM();
 });
-
-// IPC para desinstalar o Copilot
-ipcMain.on('desinstalarCopilot', desinstalarCopilot);
