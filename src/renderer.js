@@ -10,12 +10,13 @@ document.getElementById('limparTemp').addEventListener('click', async (event) =>
         // Adiciona a notificação no localStorage
         const notifications = JSON.parse(localStorage.getItem('notificacoes')) || [];
         notifications.push({
-            message: response.message,
+            message: 'Arquivos temporários limpos com sucesso',
             status: "success"
         });
+
         localStorage.setItem('notificacoes', JSON.stringify(notifications));
     } catch (error) {
-        console.error('Erro ao limpar os arquivos temporários:', error);
+        console.error('Erro ao limpar os arquivos temporários:', error); 
     } finally {
         actionContainer.style.pointerEvents = 'auto'; // Reabilita a interação com a div
     }

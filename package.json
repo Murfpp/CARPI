@@ -21,6 +21,7 @@
     "appId": "com.example.toptimizer",
     "win": {
       "target": "nsis",
+      "icon": "src/imgs/logoprincipal.ico",
       "requestedExecutionLevel": "requireAdministrator"
     }
   }
