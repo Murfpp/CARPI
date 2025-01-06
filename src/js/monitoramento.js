@@ -13,7 +13,7 @@ function atualizarDesempenho() {
     Promise.all([window.electron.obterUsoCPU(), window.electron.obterUsoRAM()])
     .then(([usoCPU, usoRAM]) => {
         // Construir textos para CPU e RAM
-        const cpuStatus = `Uso de CPU: ${usoCPU.cpuUsage}% | Temperatura: ${usoCPU.cpuTemp}°C`;
+        const cpuStatus = `Uso de CPU: ${usoCPU.cpuUsage}% | Temperatura: ${usoCPU.cpuTemp.includes('°C') ? usoCPU.cpuTemp : usoCPU.cpuTemp + '°C'}`;
         const ramStatus = `Uso de RAM: ${usoRAM.usedRAM} / ${usoRAM.totalRAM} (Livre: ${usoRAM.freeRAM})`;
         
         // Atualizar textos nos parágrafos
@@ -62,7 +62,7 @@ const pegarNotificacoes = () => {
     recentNotifications.forEach(notification => {
         const listItem = document.createElement('li');
         listItem.style.margin = '5px 0';
-        listItem.style.color = notification.status === 'success' ? '#2ecc71' : '#e74c3c'; // Sucesso ou erro
+        listItem.style.color = 'fff'; // Sucesso ou erro
         listItem.innerText = `${notification.status === 'success' ? '✅' : '❌'} ${notification.message}`;
         notificationList.appendChild(listItem);
     });

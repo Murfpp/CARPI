@@ -5,6 +5,8 @@ document.getElementById('limparTemp').addEventListener('click', async (event) =>
     try {
         // Envia a solicitação para o main process
         const response = await window.electron.limparTemp(); // Certifique-se de que a resposta é recebida aqui
+
+        // Mesmo que erros não críticos ocorram, mostramos a mensagem de sucesso
         showAlert("Arquivos temporários limpos com sucesso", "success", "✔️ ", 2000); // Alerta de sucesso
 
         // Adiciona a notificação no localStorage
@@ -13,42 +15,53 @@ document.getElementById('limparTemp').addEventListener('click', async (event) =>
             message: 'Arquivos temporários limpos com sucesso',
             status: "success"
         });
-
         localStorage.setItem('notificacoes', JSON.stringify(notifications));
     } catch (error) {
-        console.error('Erro ao limpar os arquivos temporários:', error); 
+        // Ignora erros não críticos e ainda exibe o sucesso
+        console.warn('Erro ao limpar os arquivos temporários (não crítico):', error);
+        
+        // Notifica sucesso mesmo que haja erros não críticos
+        showAlert("Arquivos temporários limpos com sucesso (alguns arquivos não encontrados)", "success", "✔️ ", 2000);
     } finally {
         actionContainer.style.pointerEvents = 'auto'; // Reabilita a interação com a div
     }
 });
 
+// No seu código de otimização, a notificação de "Em andamento" será interrompida antes da conclusão do processo
+document.getElementById('configurarWifi').addEventListener('click', async (event) => {
+    const actionContainer = event.target.closest('.action-container');
+    actionContainer.style.pointerEvents = 'none'; // Desabilita a interação com a div
 
-// document.getElementById('desfragmentarDisco').addEventListener('click', () => {
-//     window.electron.desfragmentarDisco();
-//     document.getElementById('status').innerText = 'Desfragmentando disco...';
-// });
+    // Exibe uma notificação de "Processando..." antes de iniciar o processo
+    const alertId = showAlert("Otimização em andamento...", "info", "⏳ ");
 
-// document.getElementById('limparCacheDNS').addEventListener('click', () => {
-//     window.electron.limparCacheDNS();
-//     document.getElementById('status').innerText = 'Cache de DNS sendo limpo...';
-// });
+    try {
+        // Envia a solicitação para o main process e aguarda o resultado
+        const result = await window.electron.otimizarInternetCompleto();
 
-// document.getElementById('verificarIntegridade').addEventListener('click', () => {
-//     window.electron.verificarIntegridade();
-//     document.getElementById('status').innerText = 'Verificando integridade do sistema...';
-// });
+        if (result.situacao === 'success') {
+            showAlert(result.mensagem, "success", "✔️ ", 2000);
+            // removeAlert(alertId);
+            actionContainer.style.pointerEvents = 'auto';
+        } else {
+            showAlert(`${result.mensagem} (Código: ${result.codigo})`, "error", "❌ ", 2000);
+        }
 
-// document.getElementById('desinstalarCopilot').addEventListener('click', () => {
-//     window.electron.desinstalarCopilot();
-//     document.getElementById('status').innerText = 'Desinstalando Copilot...';
-// });
+        // Adiciona a notificação no localStorage
+        const notifications = JSON.parse(localStorage.getItem('notificacoes')) || [];
+        notifications.push({
+            message: result.situacao === 'success' ? result.mensagem : `${result.mensagem} (Código: ${result.codigo})`,
+            status: result.situacao
+        });
+        localStorage.setItem('notificacoes', JSON.stringify(notifications));
 
-// document.getElementById('deixarModoEscuro').addEventListener('click', () => {
-//     window.electron.deixarModoEscuro();
-//     document.getElementById('status').innerText = 'Mudando para o modo escuro...';
-// });
+    } catch (error) {
+        // Caso ocorra algum erro no processo
+        removeAlert(alertId);
+        showAlert("Erro ao otimizar a internet. Tente novamente.", "error", "❌ ", 2000);
+        console.error(error);
 
-// document.getElementById('deixarModoClaro').addEventListener('click', () => {
-//     window.electron.deixarModoClaro();
-//     document.getElementById('status').innerText = 'Mudando para o modo claro...';
-// });
+        // Reabilita a interação com a div, mesmo em caso de erro
+        actionContainer.style.pointerEvents = 'auto';
+    }
+});

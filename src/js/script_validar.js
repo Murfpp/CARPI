@@ -21,12 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // Exibir o primeiro formulário com animação
   formValidation.classList.add('visible');
 
-  // Ação ao clicar em "Criar Senha"
-  btnCreatePassword.addEventListener('click', (event) => {
-      event.preventDefault();
-      toggleForms(formValidation, formCreatePassword);
-  });
-
   // Ação ao clicar em "Já tenho uma conta!"
   linkLogin.addEventListener('click', (event) => {
       event.preventDefault();
@@ -38,6 +32,25 @@ document.addEventListener('DOMContentLoaded', () => {
       event.preventDefault();
       toggleForms(formLogin, formValidation);
   });
+});
+
+document.getElementById('btn-create-password').addEventListener('click', () => {
+  event.preventDefault();
+  const email = document.getElementById('email-validation').value;
+  const chave = document.getElementById('key-validation').value;
+
+  const sanitizedEmail = validateInput(email);
+  if (sanitizedEmail !== email){
+    return showAlert("Input contém caracteres inválidos ou maliciosos.", "error", "❌", 1600);
+  }
+
+  if (email === '' || chave === '') {
+    return showAlert("Preencha todos os campos", "error", "❌", 2000);
+  }
+
+  return showAlert("Essa opção está bloqueada ainda", "error", "❌", 2000);
+
+  // chaveOuEmailExiste(email, chave);
 });
 
 const submitCreatePassword = document.getElementById('submit-criar-senha');

@@ -1,5 +1,15 @@
+let ongoingAlert = null; // Variável para armazenar a referência do alerta em andamento
+
 function showAlert(msg, type, emoji = '', duration = 5000) {
     const alertContainer = document.getElementById('alert-container');
+
+    // Verifica se há uma notificação em andamento e a remove
+    if (type === 'info' && ongoingAlert) {
+        ongoingAlert.style.opacity = 0;
+        setTimeout(() => {
+            alertContainer.removeChild(ongoingAlert);
+        }, 500);
+    }
 
     // Criar a estrutura do alerta
     const alert = document.createElement('div');
@@ -32,6 +42,11 @@ function showAlert(msg, type, emoji = '', duration = 5000) {
 
     // Adicionar o alerta ao container
     alertContainer.appendChild(alert);
+
+    // Se for uma notificação "Em andamento", armazene a referência
+    if (type === 'info') {
+        ongoingAlert = alert; // Armazena a referência para a interrupção posterior
+    }
 
     // Iniciar a animação da barra de progresso
     setTimeout(() => {

@@ -24,7 +24,6 @@
         }
 
         img {
-            /* filter: grayscale(100%); */
             user-select: none;
         }
 
@@ -49,7 +48,8 @@
             height: 100%;
             overflow: hidden;
             z-index: -1;
-            opacity: 0.6;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
         }
 
         .particle {
@@ -58,7 +58,7 @@
             width: 5px;
             height: 5px;
             border-radius: 50%;
-            animation: floatParticle 5s infinite ease-in-out, fadeOutParticles 3s forwards;
+            animation: floatParticle 3s linear forwards;
         }
 
         @keyframes floatParticle {
@@ -67,23 +67,8 @@
                 opacity: 1;
             }
 
-            50% {
-                transform: translateY(-200px) scale(1);
-                opacity: 0.5;
-            }
-
             100% {
-                transform: translateY(-400px) scale(0.8);
-                opacity: 0;
-            }
-        }
-
-        @keyframes fadeOutParticles {
-            0% {
-                opacity: 0.6;
-            }
-
-            100% {
+                transform: translateY(-400px) scale(0.5);
                 opacity: 0;
             }
         }
@@ -102,7 +87,6 @@
             margin-bottom: 10px;
         }
 
-        /* Animações */
         @keyframes fadeInOut {
             0% {
                 opacity: 0;
@@ -130,20 +114,6 @@
                 transform: scale(1);
             }
         }
-
-        @keyframes slideUp {
-            0% {
-                transform: translateY(20px);
-            }
-
-            50% {
-                transform: translateY(0);
-            }
-
-            100% {
-                transform: translateY(-10px);
-            }
-        }
     </style>
 </head>
 
@@ -164,27 +134,32 @@
             const fadeElements = document.querySelectorAll('.fade-element');
 
             // Criar partículas
-            for (let i = 0; i < 20; i++) {
+            for (let i = 0; i < 30; i++) {
                 const particle = document.createElement('div');
                 particle.classList.add('particle');
                 particle.style.left = `${Math.random() * 100}vw`;
                 particle.style.top = `${Math.random() * 100}vh`;
-                particle.style.animationDelay = `${Math.random() * 2}s`;
-                particle.style.animationDuration = `${3 + Math.random() * 3}s`;
+                particle.addEventListener('animationend', () => {
+                    particle.remove(); // Remover partícula após animação
+                });
                 particlesContainer.appendChild(particle);
             }
 
-            // Remover partículas antes do desaparecimento da logo
+            setTimeout(() => {
+                particlesContainer.style.opacity = '1'; // Mostrar partículas
+            }, 500); // Espera 2s antes de iniciar a transição
+
+            // Iniciar desaparecimento sincronizado após 2 segundos
             setTimeout(() => {
                 particlesContainer.style.transition = 'opacity 1.5s ease-out';
                 particlesContainer.style.opacity = '0';
-            }, 2000); // 2s antes da logo começar a desaparecer
+            }, 2000); // Espera 2s antes de iniciar a transição
 
             // Redirecionar após animação completa
             fadeElements.forEach(element => {
                 element.addEventListener('animationend', () => {
                     let validoOuNao = localStorage.getItem('contaValida');
-                    if(validoOuNao == 'true') {
+                    if (validoOuNao === 'true') {
                         window.location.href = 'pages/app.html';
                     } else {
                         window.location.href = 'pages/inicial.html';

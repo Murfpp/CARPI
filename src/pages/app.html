@@ -34,7 +34,7 @@
             </div>
             <div class="sidebar-item" onclick="navigateTo('storage')">
                 <i class="fas fa-hdd"></i> <!-- Armazenamento e Registros -->
-                <span class="sidebar-text">Armazenamento</span>
+                <span class="sidebar-text">Discos</span>
             </div>
             <div class="sidebar-item" onclick="navigateTo('internet')">
                 <i class="fas fa-wifi"></i> <!-- Conexão com a Internet -->
@@ -114,16 +114,17 @@
 
 
                 <!-- Últimas Notificações -->
-                <div class="dashboard-notifications"
-                style="margin-top: 20px; padding: 15px; background: #1a1a1a; border-radius: 5px;">
-                <h2 style="font-size: 1.5rem; margin-bottom: 10px;">Notificações Recentes
-                    <i class="fas fa-trash"  id="clear-notifications" style="background: none; border: none; color: #fff; font-size: 1rem; cursor: pointer; padding: 0; margin-left: 50%;"></i>
-                </h2>
-                <ul id="notification-list" style="list-style: none; padding: 0;">
-                    <!-- As notificações serão inseridas aqui dinamicamente -->
-                </ul>
-                </div>
-            
+                <div class="dashboard-notifications" style="margin-top: 20px; padding: 15px; background: #1a1a1a; border-radius: 5px;">
+                    <div class="notifications-header" style="display: flex; justify-content: space-between; align-items: center;">
+                        <h2 style="font-size: 1.5rem; margin-bottom: 0;">Notificações Recentes</h2>
+                        <button class="class-clear-notifications" id="clear-notifications">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                    <ul id="notification-list" style="list-style: none; padding: 0;">
+                        <!-- As notificações serão inseridas aqui dinamicamente -->
+                    </ul>
+                </div>                
             </div>
 
             <!-- Interface e Ferramentas -->
@@ -233,7 +234,7 @@
             <div id="internet" class="panel">
                 <h2>Conexão com a Internet</h2>
                 <div class="action-containers">
-                    <div class="action-container" onclick="action('internet')">
+                    <div class="action-container" id="configurarWifi">
                         <i class="fas fa-wifi"></i>
                         <h3>Otimizar Internet</h3>
                         <p>Ajustar configurações de rede para maior velocidade e estabilidade.</p>
@@ -265,6 +266,28 @@
     <script>
         pegarNotificacoes(); // Carregar notificações
         showAlert("Bem-vindo ao Painel de Controle do Toptimizer!", "info", '😉', 2000); // Alerta de Boas-Vindas
+
+        // Seleciona a sidebar
+        const sidebar = document.querySelector('.sidebar');
+        const sidebarTexts = document.querySelectorAll('.sidebar-text');
+
+        // Evento de mouseover
+        sidebar.addEventListener('mouseenter', () => {
+            sidebarTexts.forEach(text => {
+                text.style.opacity = '1';
+                text.style.visibility = 'visible';
+                // text.style.textAlign = 'center';
+            });
+        });
+
+        // Evento de mouseout
+        sidebar.addEventListener('mouseleave', () => {
+            sidebarTexts.forEach(text => {
+                text.style.opacity = '0';
+                text.style.visibility = 'hidden';
+            });
+        });
+
     </script>
 </body>
 

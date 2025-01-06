@@ -1,7 +1,7 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('electron', {
-    limparTemp: () => ipcRenderer.send('limparTemp'),
+    limparTemp: () => ipcRenderer.invoke('limparTemp'),
     desfragmentarDisco: () => ipcRenderer.send('desfragmentarDisco'),
     monitorarPerformance: () => ipcRenderer.send('monitorarPerformance'),
     limparCacheDNS: () => ipcRenderer.send('limparCacheDNS'),
@@ -10,5 +10,6 @@ contextBridge.exposeInMainWorld('electron', {
     verificarIntegridade: () => ipcRenderer.send('verificarIntegridade'),
     desinstalarCopilot: () => ipcRenderer.send('desinstalarCopilot'),
     deixarModoEscuro: () => ipcRenderer.send('mudarTemaWindows', 'escuro'),
-    deixarModoClaro: () => ipcRenderer.send('mudarTemaWindows', 'claro')
+    deixarModoClaro: () => ipcRenderer.send('mudarTemaWindows', 'claro'),
+    otimizarInternetCompleto: () => ipcRenderer.invoke('otimizarInternetCompleto') // Usando ipcRenderer.invoke
 });

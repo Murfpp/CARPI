@@ -25,7 +25,34 @@ body {
     animation: opacity 1s ease-in forwards;
 }
 
+.class-clear-notifications {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    transition: 0.4s;
+}
+
+.class-clear-notifications:hover {
+    color: #007bff;
+    transform: scale(1.05);
+}
+
+.notifications-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.notifications-header h2 {
+    margin: 0;
+}
+
 /* Barra lateral */
+/* Estilização da Sidebar */
 .sidebar {
     background: linear-gradient(135deg, #000, #2a2a2a);
     color: #fff;
@@ -36,28 +63,56 @@ body {
     top: 0;
     left: 0;
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
-    transition: width 0.4s ease, box-shadow 0.3s ease-in-out; /* Suaviza a transição de largura e sombra */
+    transition: width 0.6s ease, box-shadow 0.4s ease-in-out;
     z-index: 1000;
+    overflow: hidden;
 }
 
-/* Barra lateral ao passar o mouse */
+/* Hover na Sidebar para expandir */
 .sidebar:hover {
     width: 180px;
-    box-shadow: 5px 0 15px rgba(0, 0, 0, 0.8); /* Aumenta a sombra quando hover */
+    box-shadow: 5px 0 15px rgba(0, 0, 0, 0.8);
 }
 
-/* Item da barra lateral */
+/* Ajuste dos textos para aparecerem juntos */
+.sidebar:hover .sidebar-text {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* Ocultar textos por padrão */
+.sidebar-text {
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    text-align: center;
+    font-family: sans-serif;
+    font-size: 14px;
+    color: #fff;
+    pointer-events: none;
+    margin: 0 auto;
+    transition: opacity 0.3s ease-in-out;
+}
+
+
+/* Item da Sidebar */
 .sidebar-item {
     display: flex;
+    align-items: center;
     margin-bottom: 15px;
     margin-left: 10px;
     padding: 10px;
     font-size: 16px;
     cursor: pointer;
-    position: relative;
-    /* text-align: center; */
     user-select: none;
-    transition: background-color 0.3s ease, transform 0.3s ease-out; /* Aumenta a suavidade ao passar o mouse */
+    transition: background-color 0.3s ease, transform 0.3s ease-out;
+}
+
+.sidebar-item span {
+    display: flex;
+   text-align: center;
+   align-items: center;
 }
 
 /* Ícones */
@@ -65,37 +120,20 @@ body {
     font-size: 18px;
     margin-right: 10px;
     color: #ccc;
-    transition: transform 0.3s ease, color 0.3s ease-out; /* Suaviza a transformação do ícone */
+    transition: transform 0.3s ease, color 0.3s ease;
 }
 
-/* Efeito de hover nos ícones */
-.sidebar-item i:hover {
-    transform: scale(1.1);
-    color: #3469b2; /* Efeito de hover neon */
-}
-
-/* Texto que aparece no hover */
-.sidebar-text {
-    visibility: hidden; /* Inicialmente invisível */
-    opacity: 0;
-    left: 100%;
-    width: 70%;
-    margin-left: 10px;
-    transition: opacity 0.6s ease-in-out, transform 0.4s ease-in-out, visibility 0.4s ease-in-out; /* Transições suaves */
-    font-size: 14px;
-    color: #fff;
-    pointer-events: none;
-}
-
+/* Hover sincronizado para texto e ícone */
+.sidebar-item:hover i,
 .sidebar-item:hover .sidebar-text {
-    visibility: visible; /* Torna visível ao passar o mouse */
-    opacity: 1;
+    color: #4BA4F2;
+    transform: scale(1.1);
 }
 
 /* Botão de Logout */
 .sidebar-item.logout {
     position: absolute;
-    bottom: 20px; /* Fixa o botão na parte inferior */
+    bottom: 20px;
     left: 0;
     right: 0;
     margin: 0 auto;
@@ -109,26 +147,15 @@ body {
 /* Ícone do botão Logout */
 .sidebar-item.logout i {
     font-size: 18px;
-    color: #f13131df; 
+    color: #f13131df;
     transition: transform 0.3s ease, color 0.3s ease;
 }
 
-.sidebar-item.logout:hover i {
-    transform: scale(1.1); /* Efeito de leve aumento */
-    color: #ff0000; /* Cor mais vibrante ao passar o mouse */
-}
-
-.sidebar-item.logout .sidebar-text {
-    visibility: hidden;
-    opacity: 0;
-    transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out;
-}
-
+.sidebar-item.logout:hover i,
 .sidebar-item.logout:hover .sidebar-text {
-    visibility: visible;
-    opacity: 1;
+    color: #ff0000;
+    transform: scale(1.1);
 }
-
 
 /* Animação de opacidade */
 @keyframes opacity {
@@ -153,10 +180,11 @@ body {
 
 /* Conteúdo principal */
 .main-content {
-    margin-left: 80px;
+    margin-left: 70px;
     padding: 20px;
     width: calc(100% - 80px);
-    overflow-y: auto;
+    overflow-y: hidden;
+    overflow-x: hidden;
     animation: slideIn 0.3s ease-out;
 }
 
