@@ -48,9 +48,9 @@
 }
 
 /* Efeito ao ativar */
-.theme-toggle:checked + .theme-toggle-label {
-    background: #007bff;
-}
+/* .theme-toggle:checked + .theme-toggle-label {
+
+} */
 
 .theme-toggle:checked + .theme-toggle-label .theme-toggle-ball {
     transform: translateX(30px);

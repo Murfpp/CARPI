@@ -13,7 +13,7 @@ function atualizarDesempenho() {
     Promise.all([window.electron.obterUsoCPU(), window.electron.obterUsoRAM()])
     .then(([usoCPU, usoRAM]) => {
         // Construir textos para CPU e RAM
-        const cpuStatus = `Uso de CPU: ${usoCPU.cpuUsage}% | Temperatura: ${usoCPU.cpuTemp.includes('°C') ? usoCPU.cpuTemp : usoCPU.cpuTemp + '°C'}`;
+        const cpuStatus = `Uso de CPU: ${usoCPU.cpuUsage} | Temperatura: ${usoCPU.cpuTemp.includes('°C') ? usoCPU.cpuTemp : usoCPU.cpuTemp + '°C'}`;
         const ramStatus = `Uso de RAM: ${usoRAM.usedRAM} / ${usoRAM.totalRAM} (Livre: ${usoRAM.freeRAM})`;
         
         // Atualizar textos nos parágrafos
@@ -50,7 +50,7 @@ const pegarNotificacoes = () => {
     const notifications = JSON.parse(localStorage.getItem('notificacoes')) || [];
     
     // Pega as 5 últimas notificações
-    const recentNotifications = notifications.slice(-5);
+    const recentNotifications = notifications.slice(-3);
 
     // Referência ao elemento da lista onde as notificações serão exibidas
     const notificationList = document.getElementById('notification-list');

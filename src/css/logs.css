@@ -1,0 +1,47 @@
+.close-logs-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #fff;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    cursor: pointer;
+    transition: 0.8s;
+}
+
+.close-logs-btn:hover{
+    color: #F44336;
+    transform: scale(1.05);
+}
+
+#log-container {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+#logs-list {
+    list-style: none;
+    padding: 0;
+}
+
+#logs-list li {
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #444;
+}
+
+#logs-list li.success {
+    background-color: #4CAF50; /* Green */
+}
+
+#logs-list li.error {
+    background-color: #F44336; /* Red */
+}
+
+hr {
+    margin: 20px 0;
+    border: 0;
+    border-top: 1px solid #fff;
+}

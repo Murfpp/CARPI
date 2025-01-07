@@ -5,24 +5,120 @@
     box-sizing: border-box;
 }
 
+::-webkit-scrollbar {
+    width: 8px;
+    /* Largura da barra de rolagem vertical */
+    height: 8px;
+    /* Altura da barra de rolagem horizontal */
+}
+
+/* Cor de fundo da área da barra de rolagem */
+::-webkit-scrollbar-track {
+    background: #1A1926;
+    /* Cor de fundo */
+    border-radius: 10px;
+}
+
+/* Cor da barra de rolagem em si */
+::-webkit-scrollbar-thumb {
+    background: #417CF2;
+    /* Cor da barra */
+    border-radius: 10px;
+    /* Bordas arredondadas */
+}
+
+/* Efeito ao passar o mouse sobre a barra */
+::-webkit-scrollbar-thumb:hover {
+    background: #3D80D9;
+    /* Cor ao passar o mouse */
+}
+
 /* Configuração geral do corpo */
 body {
-    font-family: 'Poppins', sans-serif; /* Fontes modernas */
-    background: linear-gradient(135deg, #121212, #1a1a1a); /* Fundo escuro */
-    color: #fff; /* Texto claro */
-    display: flex; 
+    font-family: 'Poppins', sans-serif;
+    /* Fontes modernas */
+    background: linear-gradient(135deg, #121212, #1a1a1a);
+    /* Fundo escuro */
+    color: #fff;
+    /* Texto claro */
+    display: flex;
     height: 100vh;
     flex-direction: column;
-    overflow: hidden;
+    /* overflow: hidden; */
     line-height: 1.5;
     scroll-behavior: smooth;
-    user-select: none; /* Evita a seleção de texto */
+    user-select: none;
+    /* Evita a seleção de texto */
 }
 
 /* Animação de Opacidade */
 .container {
     opacity: 0;
     animation: opacity 1s ease-in forwards;
+}
+
+
+.dashboard-notifications {
+    /* background-color: #2c2f38; */
+    background: #1a1a1a;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.notifications-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.notifications-header h2 {
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: #fff;
+}
+
+#notification-list {
+    list-style: none;
+    padding: 0;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+#notification-list li {
+    /* background: #3a3f47; */
+    background: #1a1a1a;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #fff;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+
+#notification-list li.success {
+    background: #4CAF50; /* Verde */
+}
+
+#notification-list li.error {
+    background: #F44336; /* Vermelho */
+}
+
+#notification-list li i {
+    margin-right: 10px;
+}
+
+#notification-list li:hover {
+    background-color: #444;
+}
+
+small {
+    font-size: 0.8rem;
+    color: #bbb;
 }
 
 .class-clear-notifications {
@@ -64,7 +160,7 @@ body {
     left: 0;
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
     transition: width 0.6s ease, box-shadow 0.4s ease-in-out;
-    z-index: 1000;
+    z-index: 1000; /* Certifique-se de que a sidebar tenha um z-index alto */
     overflow: hidden;
 }
 
@@ -111,8 +207,8 @@ body {
 
 .sidebar-item span {
     display: flex;
-   text-align: center;
-   align-items: center;
+    text-align: center;
+    align-items: center;
 }
 
 /* Ícones */
@@ -126,7 +222,7 @@ body {
 /* Hover sincronizado para texto e ícone */
 .sidebar-item:hover i,
 .sidebar-item:hover .sidebar-text {
-    color: #4BA4F2;
+    color: #007bff;
     transform: scale(1.1);
 }
 
@@ -151,6 +247,13 @@ body {
     transition: transform 0.3s ease, color 0.3s ease;
 }
 
+/* Estilo para o item ativo na Sidebar */
+.sidebar-item.active i,
+.sidebar-item.active .sidebar-text {
+    color: #4BA4F2; /* Cor azul para o ícone e texto */
+    transform: scale(1.1); /* Efeito leve de escala */
+}
+
 .sidebar-item.logout:hover i,
 .sidebar-item.logout:hover .sidebar-text {
     color: #ff0000;
@@ -159,22 +262,12 @@ body {
 
 /* Animação de opacidade */
 @keyframes opacity {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-/* Responsividade */
-@media (max-width: 768px) {
-    .sidebar {
-        width: 60px;
+    from {
+        opacity: 0;
     }
 
-    .sidebar-item i {
-        font-size: 20px;
-    }
-
-    .sidebar-text {
-        font-size: 12px;
+    to {
+        opacity: 1;
     }
 }
 
@@ -190,16 +283,26 @@ body {
 
 /* Animação de slide */
 @keyframes slideIn {
-    from { opacity: 0; transform: translateX(20px); }
-    to { opacity: 1; transform: translateX(0); }
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
 /* Painel */
 /* Define a base para os painéis */
 .panel {
-    opacity: 0; /* Painel invisível inicialmente */
-    transition: opacity 0.5s ease-in-out; /* Efeito de transição suave */
-    display: none; /* Evita que painéis fiquem visíveis antes de serem ativados */
+    opacity: 0;
+    /* Painel invisível inicialmente */
+    transition: opacity 0.5s ease-in-out;
+    /* Efeito de transição suave */
+    display: none;
+    /* Evita que painéis fiquem visíveis antes de serem ativados */
 }
 
 /* Quando o painel estiver ativo, ele se torna visível */
@@ -218,7 +321,7 @@ body {
 }
 
 .action-container {
-    background: linear-gradient(135deg, #2c2c2c, #3c3c3c);
+    background: linear-gradient(135deg, #2c2f38, #3c3c3c);
     border-radius: 12px;
     padding: 20px;
     text-align: center;
@@ -297,6 +400,7 @@ body {
     margin-top: 10px;
     position: relative;
     overflow: hidden;
+    z-index: -1;
 }
 
 .progress-bar::after {
@@ -309,50 +413,32 @@ body {
     animation: progressAnimation 1.5s ease;
 }
 
+.quick-access-button {
+    flex: 1;
+    margin: 10px;
+    padding: 15px;
+    background: #1e1e1e;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    text-align: center;
+    transition: background 0.3s, transform 0.3s;
+}
+
+.quick-access-button:hover {
+    background: #3D80D9; /* Cor de fundo no hover */
+    transform: scale(1.05); /* Efeito de aumentar ligeiramente o botão */
+}
+
+
 @keyframes progressAnimation {
-    from { width: 0; }
-    to { width: 70%; }
-}
-
-/* Responsividade */
-@media (max-width: 768px) {
-    .sidebar {
-        width: 60px;
+    from {
+        width: 0;
     }
 
-    .main-content {
-        margin-left: 60px;
-        width: calc(100% - 60px);
-    }
-
-    .dashboard-banner h2 {
-        font-size: 1.5rem;
-    }
-
-    .status-card {
-        width: calc(50% - 10px);
-    }
-
-    .action-container {
-        padding: 15px;
-    }
-}
-
-@media (max-width: 480px) {
-    .sidebar {
-        display: none;
-    }
-
-    .main-content {
-        margin-left: 0;
-        width: 100%;
-    }
-
-    .status-card {
-        width: 100%;
-    }
-
-    .dashboard-banner h2 {
-        font-size: 1.2rem;
+    to {
+        width: 70%;
     }
 }

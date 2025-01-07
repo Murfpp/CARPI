@@ -22,9 +22,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (themeToggle.checked) {
             showAlert("Tema alterado para escuro com sucesso!", "success", "✔️ ", 2000);
             window.electron.deixarModoEscuro(); // Altera o tema do Windows para escuro
+            armazenarMsg('success', 'Tema alterado para escuro'); // Armazena a notificação de mudança de tema
         } else {
             showAlert("Tema alterado para claro com sucesso!", "success", "✔️ ", 2000);
-            document.body.classList.remove('dark-theme');            window.electron.deixarModoClaro(); // Altera o tema do Windows para claro
+            document.body.classList.remove('dark-theme');
+            window.electron.deixarModoClaro(); // Altera o tema do Windows para claro
+            armazenarMsg('success', 'Tema alterado para claro'); // Armazena a notificação de mudança de tema
         }
     });
 });

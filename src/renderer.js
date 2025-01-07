@@ -13,7 +13,8 @@ document.getElementById('limparTemp').addEventListener('click', async (event) =>
         const notifications = JSON.parse(localStorage.getItem('notificacoes')) || [];
         notifications.push({
             message: 'Arquivos temporários limpos com sucesso',
-            status: "success"
+            status: "success",
+            date: new Date().toISOString() // Adiciona a data da notificação
         });
         localStorage.setItem('notificacoes', JSON.stringify(notifications));
     } catch (error) {
@@ -48,11 +49,12 @@ document.getElementById('configurarWifi').addEventListener('click', async (event
             actionContainer.style.pointerEvents = 'auto';
         }
 
-        // Adiciona a notificação no localStorage
+        // Adiciona a notificação no localStorage com a data
         const notifications = JSON.parse(localStorage.getItem('notificacoes')) || [];
         notifications.push({
             message: result.situacao === 'success' ? result.mensagem : `${result.mensagem} (Código: ${result.codigo})`,
-            status: result.situacao
+            status: result.situacao,
+            date: new Date().toISOString() // Adiciona a data da notificação
         });
         localStorage.setItem('notificacoes', JSON.stringify(notifications));
 
