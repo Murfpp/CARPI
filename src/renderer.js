@@ -31,40 +31,60 @@ document.getElementById('limparTemp').addEventListener('click', async (event) =>
 // No seu código de otimização, a notificação de "Em andamento" será interrompida antes da conclusão do processo
 document.getElementById('configurarWifi').addEventListener('click', async (event) => {
     const actionContainer = event.target.closest('.action-container');
-    actionContainer.style.pointerEvents = 'none'; // Desabilita a interação com a div
+    const botao = event.target; // Salva uma referência ao botão
 
-    // Exibe uma notificação de "Processando..." antes de iniciar o processo
-    const alertId = showAlert("Otimização em andamento...", "info", "⏳ ");
+    // Desabilita SOMENTE o botão, não o container inteiro.
+    botao.disabled = true;
+
+    showAlert("Otimização em andamento...", "info", "⏳ ");
+
+    const comandos = [
+        "Set-NetAdapterRsc -Name \"Wi-Fi\" -Enabled $true",
+        "Set-NetAdapterRsc -Name \"Wi-Fi\" -EnabledIPv6 $true",
+        "netsh int tcp set global chimney=enabled",
+        "netsh int tcp set global autotuning=normal",
+        "netsh int tcp set global congestionprovider=ctcp",
+        "netsh int tcp set global rss=enabled",
+        "ipconfig /flushdns",
+        "REG ADD \"HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\DeliveryOptimization\\Config\" /v DODownloadMode /t REG_DWORD /d 0 /f > nul"
+    ];
 
     try {
-        // Envia a solicitação para o main process e aguarda o resultado
-        const result = await window.electron.otimizarInternetCompleto();
-
-        if (result.situacao === 'success') {
-            showAlert(result.mensagem, "success", "✔️ ", 2000);
-            // removeAlert(alertId);
-            actionContainer.style.pointerEvents = 'auto';
+        const resultado = await window.electronAPI.executarComandosAdmin(comandos);
+        if (resultado.sucesso) {
+            showAlert("Otimização de WI-FI finalizada com sucesso", "success", "✔️ ", 2000);
+            adicionarNotificacaoLimpeza("Otimização de WI-FI finalizada com sucesso", "success");
         } else {
-            showAlert(`${result.mensagem} (Código: ${result.codigo})`, "error", "❌ ", 2000);
-            actionContainer.style.pointerEvents = 'auto';
+            console.error("Erro ao executar o comando:", resultado.erro);
+            showAlert(`Erro ao otimizar: ${resultado.erro}`, "error", "❌ ", 2000);
+            adicionarNotificacaoLimpeza(`Erro ao otimizar: ${resultado.erro}`, "error");
         }
-
-        // Adiciona a notificação no localStorage com a data
-        const notifications = JSON.parse(localStorage.getItem('notificacoes')) || [];
-        notifications.push({
-            message: result.situacao === 'success' ? result.mensagem : `${result.mensagem} (Código: ${result.codigo})`,
-            status: result.situacao,
-            date: new Date().toISOString() // Adiciona a data da notificação
-        });
-        localStorage.setItem('notificacoes', JSON.stringify(notifications));
-
     } catch (error) {
-        // Caso ocorra algum erro no processo
-        removeAlert(alertId);
-        showAlert("Erro ao otimizar a internet. Tente novamente.", "error", "❌ ", 2000);
-        console.error(error);
+        console.error("Erro geral na otimização:", error);
+        const mensagemDeErro = error.message ? `Erro geral: ${error.message}` : "Erro desconhecido ao otimizar a internet.";
+        showAlert(mensagemDeErro, "error", "❌ ", 2000);
 
-        // Reabilita a interação com a div, mesmo em caso de erro
-        actionContainer.style.pointerEvents = 'auto';
+        adicionarNotificacaoLimpeza(mensagemDeErro, "error");
+    } finally {
+        // SEMPRE reabilita o botão no finally.
+        botao.disabled = false;
     }
 });
+
+function adicionarNotificacaoLimpeza(mensagem, status) {
+    try {
+        const notifications = JSON.parse(localStorage.getItem('notificacoes')) || [];
+
+        notifications.push({
+            message: mensagem,
+            status: status,
+            date: new Date().toISOString()
+        });
+
+        localStorage.setItem('notificacoes', JSON.stringify(notifications));
+        return true; // Indica sucesso na adição
+    } catch (error) {
+        console.error("Erro ao adicionar notificação:", error);
+        return false; // Indica falha na adição
+    }
+}

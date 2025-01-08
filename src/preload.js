@@ -5,6 +5,10 @@ contextBridge.exposeInMainWorld('electron', {
     obterUsoCPU: () => ipcRenderer.invoke('obterUsoCPU'),
     obterUsoRAM: () => ipcRenderer.invoke('obterUsoRAM'),
     deixarModoEscuro: () => ipcRenderer.send('mudarTemaWindows', 'escuro'),
-    deixarModoClaro: () => ipcRenderer.send('mudarTemaWindows', 'claro'),
-    otimizarInternetCompleto: () => ipcRenderer.invoke('otimizarInternetCompleto') // Usando ipcRenderer.invoke
+    deixarModoClaro: () => ipcRenderer.send('mudarTemaWindows', 'claro')
+});
+
+
+contextBridge.exposeInMainWorld('electronAPI', {
+    executarComandosAdmin: (comandos) => ipcRenderer.invoke('executar-comandos-admin', comandos)
 });
