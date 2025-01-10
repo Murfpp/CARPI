@@ -4,7 +4,7 @@ let contentModal = document.getElementById('content-modal');
 document.getElementById('btn_logs_list').addEventListener('click', () => {
     contentModal.innerHTML = `
         <button class="close-logs-btn" id="closeModal">✖</button>
-        <div id="log-container" style="margin-top:35px">
+        <div id="log-container" style="margin-top:30px">
             <ul id="logs-list"></ul>
             <hr>
         </div>

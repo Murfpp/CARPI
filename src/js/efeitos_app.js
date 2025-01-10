@@ -23,6 +23,13 @@ function navigateTo(panelId) {
     }
 }
 
+// Adiciona os eventos de clique dinamicamente para cada item da barra lateral
+document.querySelectorAll('.sidebar-item').forEach(item => {
+    item.addEventListener('click', () => {
+        const panelId = item.dataset.panel; // Obtém o valor de 'data-panel'
+        navigateTo(panelId);
+    });
+});
 // Função de ação (ao clicar nas opções dentro dos painéis)
 function action(actionType) {
     alert(`Ação: ${actionType}`);

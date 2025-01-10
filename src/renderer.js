@@ -20,7 +20,7 @@ document.getElementById('limparTemp').addEventListener('click', async (event) =>
     } catch (error) {
         // Ignora erros não críticos e ainda exibe o sucesso
         console.warn('Erro ao limpar os arquivos temporários (não crítico):', error);
-        
+
         // Notifica sucesso mesmo que haja erros não críticos
         showAlert("Arquivos temporários limpos com sucesso (alguns arquivos não encontrados)", "success", "✔️ ", 2000);
     } finally {
@@ -28,8 +28,7 @@ document.getElementById('limparTemp').addEventListener('click', async (event) =>
     }
 });
 
-// No seu código de otimização, a notificação de "Em andamento" será interrompida antes da conclusão do processo
-document.getElementById('configurarWifi').addEventListener('click', async (event) => {
+document.getElementById('btn_otimizacaoCompleta').addEventListener('click', async (event) => {
     const actionContainer = event.target.closest('.action-container');
     const botao = event.target; // Salva uma referência ao botão
 
@@ -39,21 +38,32 @@ document.getElementById('configurarWifi').addEventListener('click', async (event
     showAlert("Otimização em andamento...", "info", "⏳ ");
 
     const comandos = [
-        "Set-NetAdapterRsc -Name \"Wi-Fi\" -Enabled $true",
-        "Set-NetAdapterRsc -Name \"Wi-Fi\" -EnabledIPv6 $true",
-        "netsh int tcp set global chimney=enabled",
-        "netsh int tcp set global autotuning=normal",
-        "netsh int tcp set global congestionprovider=ctcp",
-        "netsh int tcp set global rss=enabled",
         "ipconfig /flushdns",
-        "REG ADD \"HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\DeliveryOptimization\\Config\" /v DODownloadMode /t REG_DWORD /d 0 /f > nul"
-    ];
+        "netsh int tcp set global autotuning=normal",  // Chimney removido
+        "netsh int tcp set supplemental internet congestionprovider=ctcp",  // Corrigido
+        "netsh int tcp set global rss=enabled",
+        "netsh interface ipv6 set teredo disabled",
+        "sc config wuauserv start= delayed-auto",
+        "sc start wuauserv",
+        "sc stop wsearch",
+        "sc config wsearch start= disabled",
+        "netsh int tcp set global initialrto=300",
+        "netsh winsock reset",
+        "netsh int tcp set global autotuninglevel=normal", 
+        "netsh int tcp set global rss=enabled"
+    ];    
 
     try {
         const resultado = await window.electronAPI.executarComandosAdmin(comandos);
         if (resultado.sucesso) {
             showAlert("Otimização de WI-FI finalizada com sucesso", "success", "✔️ ", 2000);
             adicionarNotificacaoLimpeza("Otimização de WI-FI finalizada com sucesso", "success");
+
+            // Marca todos os botões como ativos após a otimização completa
+            document.querySelectorAll('.toggle-button').forEach(button => {
+                button.classList.add('active');
+            });
+
         } else {
             console.error("Erro ao executar o comando:", resultado.erro);
             showAlert(`Erro ao otimizar: ${resultado.erro}`, "error", "❌ ", 2000);
@@ -88,3 +98,103 @@ function adicionarNotificacaoLimpeza(mensagem, status) {
         return false; // Indica falha na adição
     }
 }
+
+// Função para executar um comando específico
+async function executarComando(comando, descricao) {
+    try {
+        showAlert(`Executando: ${descricao}`, "info", "⏳ ");
+        const resultado = await window.electronAPI.executarComandosAdmin([comando]);
+        if (resultado.sucesso) {
+            showAlert(`${descricao} concluído com sucesso`, "success", "✔️ ", 2000);
+        } else {
+            showAlert(`Erro ao executar ${descricao}: ${resultado.erro}`, "error", "❌ ", 2000);
+        }
+    } catch (error) {
+        console.error(`Erro geral em ${descricao}:`, error);
+        showAlert(`Erro em ${descricao}: ${error.message || "Erro desconhecido"}`, "error", "❌ ", 2000);
+    }
+}
+
+// Wifi comandos
+document.querySelectorAll('.toggle-button').forEach(button => {
+    button.addEventListener('click', async () => {
+        // Desativa todos os botões durante a execução
+        document.querySelectorAll('.toggle-button').forEach(btn => btn.disabled = true);
+
+        const id = button.id;
+        const isActive = button.classList.toggle('active'); // Alterna estado ativo/inativo
+
+        try {
+            if (isActive) {
+                switch (id) {
+                    case "cmd1_otimizar_wifi":
+                        console.log("Nenhuma ação necessária para desfazer Flush DNS.");
+                        break;
+                    case "cmd2_otimizar_wifi":
+                        await executarComando("netsh int tcp set global chimney=disabled", "Desativar Chimney TCP");
+                        break;
+                    case "cmd3_otimizar_wifi":
+                        await executarComando("netsh int tcp set global autotuning=disabled", "Desativar Autotuning");
+                        break;
+                    case "cmd4_otimizar_wifi":
+                        await executarComando("netsh int tcp set supplemental internet congestionprovider=none", "Remover Congestion Provider");
+                        break;
+                    case "cmd5_otimizar_wifi":
+                        await executarComando("netsh int tcp set global rss=disabled", "Desabilitar RSS");
+                        break;
+                    case "cmd6_otimizar_wifi":
+                        await executarComando("netsh interface ipv6 set teredo default", "Ativar Teredo");
+                        break;
+                    case "cmd7_otimizar_wifi":
+                        await executarComando("sc config wuauserv start= demand", "Restaurar Delay de Início WUA");
+                        break;
+                    case "cmd8_otimizar_wifi":
+                        await executarComando("netsh int tcp reset", "Restaurar Initial RTT (Restaura todos os TPC'S)");
+                        break;
+                    case "cmd9_otimizar_wifi":
+                        await executarComando("REG DELETE \"HKLM\\SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters\" /v TcpTimedWaitDelay /f", "Restaurar Tcp Timed Wait");
+                        break;
+                    default:
+                        console.error("Comando de desfazer não reconhecido");
+                }                
+            } else {
+                switch (id) {
+                    case "cmd1_otimizar_wifi":
+                        console.log("Nenhuma ação necessária para desfazer Flush DNS.");
+                        break;
+                    case "cmd2_otimizar_wifi":
+                        await executarComando("netsh int tcp set global chimney=disabled", "Desativar Chimney TCP");
+                        break;
+                    case "cmd3_otimizar_wifi":
+                        await executarComando("netsh int tcp set global autotuning=disabled", "Desativar Autotuning");
+                        break;
+                    case "cmd4_otimizar_wifi":
+                        await executarComando("netsh int tcp set supplemental internet congestionprovider=none", "Remover Congestion Provider");
+                        break;
+                    case "cmd5_otimizar_wifi":
+                        await executarComando("netsh int tcp set global rss=disabled", "Desabilitar RSS");
+                        break;
+                    case "cmd6_otimizar_wifi":
+                        await executarComando("netsh interface ipv6 set teredo default", "Ativar Teredo");
+                        break;
+                    case "cmd7_otimizar_wifi":
+                        await executarComando("sc config wuauserv start= demand", "Restaurar Delay de Início WUA");
+                        break;
+                    case "cmd8_otimizar_wifi":
+                        await executarComando("netsh int tcp reset", "Restaurar Initial RTT (Restaura todos os TPC'S)");
+                        break;
+                    case "cmd9_otimizar_wifi":
+                        await executarComando("REG DELETE \"HKLM\\SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters\" /v TcpTimedWaitDelay /f", "Restaurar Tcp Timed Wait");
+                        break;
+                    default:
+                        console.error("Comando de desfazer não reconhecido");
+                }
+            }
+        } catch (error) {
+            console.error("Erro ao executar comando:", error);
+        } finally {
+            // Reativa todos os botões após a execução
+            document.querySelectorAll('.toggle-button').forEach(btn => btn.disabled = false);
+        }        
+    });
+});

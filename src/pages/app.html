@@ -12,6 +12,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/logs.css">
     <link rel="stylesheet" href="../css/escolhertemas.css">
+    <link rel="stylesheet" href="../css/styles_recursos.css">
 </head>
 
 <body>
@@ -35,7 +36,7 @@
         </div>
         <div class="sidebar-item" data-panel="storage" onclick="navigateTo('storage')">
             <i class="fas fa-hdd"></i>
-            <span class="sidebar-text">Discos</span>
+            <span class="sidebar-text">Armazenamento</span>
         </div>
         <div class="sidebar-item" data-panel="internet" onclick="navigateTo('internet')">
             <i class="fas fa-wifi"></i>
@@ -55,8 +56,7 @@
             <div id="dashboard" class="panel active"
                 style="padding: 20px; color: white; border-radius: 10px; font-family: Arial, sans-serif;">
                 <!-- Menu de Acesso Rápido -->
-                <div class="dashboard-quick-access"
-                    style="display: flex; justify-content: space-between;">
+                <div class="dashboard-quick-access" style="display: flex; justify-content: space-between;">
                     <button
                         style="flex: 1; margin: 10px; padding: 15px; background: #1e1e1e; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 1rem; text-align: center; transition: background 0.3s, transform 0.3s;"
                         onmouseover="this.style.background='#3D80D9'; this.style.transform='scale(1.05)';"
@@ -265,7 +265,7 @@
                         <h3>Configuração de DNS</h3>
                         <p>Usar servidores DNS rápidos.</p>
                     </div>
-                    <div class="action-container" id="configurarWifi">
+                    <div class="action-container" onclick="navigateTo('otimizarRede')">
                         <i class="fas fa-wifi"></i>
                         <h3>Otimizar Wi-Fi</h3>
                         <p>Melhorar estabilidade da conexão.</p>
@@ -289,6 +289,66 @@
                 <h1>Sobre</h1>
                 <p>Informações sobre o Painel de Controle.</p>
             </div>
+
+            <!-- Telas para os botões -->
+            <!-- Otimizar Rede -->
+            <div id="otimizarRede" class="panel">
+                <div class="action-container recursos-total" id="btn_otimizacaoCompleta">
+                    <i class="fas fa-wifi"></i>
+                    <h3>Otimização completa</h3>
+                    <p style="font-weight: 0.8;">A mais recomendada, com recursos exclusivos.</p>
+                </div>
+                <div class="container-recursos">
+                    <div class="comandos-coluna">
+                        <h3>Configurações Primárias</h3>
+                        <ul>
+                            <li class="command-item">
+                                <button class="toggle-button" id="cmd1_otimizar_wifi"></button>
+                                <label for="cmd1_otimizar_wifi">Flush DNS</label>
+                            </li>
+                            <li class="command-item">
+                                <button class="toggle-button" id="cmd2_otimizar_wifi"></button>
+                                <label for="cmd2_otimizar_wifi">Chimney TCP</label>
+                            </li>
+                            <li class="command-item">
+                                <button class="toggle-button" id="cmd3_otimizar_wifi"></button>
+                                <label for="cmd3_otimizar_wifi">Autotuning Normal</label>
+                            </li>
+                            <li class="command-item">
+                                <button class="toggle-button" id="cmd4_otimizar_wifi"></button>
+                                <label for="cmd4_otimizar_wifi">Congestion Provider</label>
+                            </li>
+                            <li class="command-item">
+                                <button class="toggle-button" id="cmd5_otimizar_wifi"></button>
+                                <label for="cmd5_otimizar_wifi">Habilitar RSS</label>
+                            </li>
+                            <li class="command-item">
+                                <button class="toggle-button" id="cmd6_otimizar_wifi"></button>
+                                <label for="cmd6_otimizar_wifi">Desativar Teredo</label>
+                            </li>
+                        </ul>
+                    </div>
+                
+                    <div class="comandos-coluna">
+                        <h3>Configurações Avançadas</h3>
+                        <ul>
+                            <li class="command-item">
+                                <button class="toggle-button" id="cmd7_otimizar_wifi"></button>
+                                <label for="cmd7_otimizar_wifi">Delay de Início WUA</label>
+                            </li>
+                            <li class="command-item">
+                                <button class="toggle-button" id="cmd8_otimizar_wifi"></button>
+                                <label for="cmd8_otimizar_wifi">Configurar Initial RTT</label>
+                            </li>
+                            <li class="command-item">
+                                <button class="toggle-button" id="cmd9_otimizar_wifi"></button>
+                                <label for="cmd9_otimizar_wifi">Configurar Tcp Timed Wait</label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>                
+            </div>
+
         </div>
 
         <div class="modal" id="myModal">
@@ -300,10 +360,10 @@
         <script src="../js/alert.js"></script>
         <script src="../js/monitoramento.js"></script>
         <script src="../js/trocartema.js"></script>
-        <script src="../js/efeitos_app.js"></script>
-        <script src="../preload.js"></script>
         <script src="../renderer.js"></script>
         <script src="../js/telas_modal.js"></script>
+        <script src="../js/efeitos_app.js"></script>
+        <script src="../preload.js"></script>
 
         <script>
             pegarNotificacoes(); // Carregar notificações

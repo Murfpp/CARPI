@@ -327,19 +327,19 @@ small {
     text-align: center;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
     cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: box-shadow 0.4s ease;
 }
 
 .action-container:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 15px rgba(0, 140, 255, 0.7);
+    /* transform: translateY(-5px); */
+    box-shadow: 0 8px 15px rgba(0, 140, 255, 0.6);
 }
 
 .action-container i {
     font-size: 35px;
-    color: #3469b2;
+    color: #4BA4F2;
     margin-bottom: 10px;
-    text-shadow: 0 0 6px #1b648e;
+    text-shadow: 0 0 6px #4BA4F2;
 }
 
 .action-container h3 {
